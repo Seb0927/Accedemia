@@ -1,10 +1,13 @@
 import React from 'react'
+import Background from './components/background'
 
 const App = () => {
   return (
-    <h1 className="text-5xl font-bold underline">
-      Welcome to Accedemia!
-    </h1>
+    <Background>
+      <h1 className="text-5xl font-bold underline">
+        Welcome to Accedemia!
+      </h1>
+    </Background>
   )
 }
 
