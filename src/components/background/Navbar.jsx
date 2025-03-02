@@ -4,7 +4,7 @@ import accesibilityPng from '../../assets/images/accesibility.png'
 
 const Navbar = () => {
   return (
-    <nav className='fixed bg-gray-medium h-16 w-full'>
+    <nav className='bg-gray-medium h-16 w-full border-b border-black'>
       <div className='flex items-center h-full px-6 py-3'>
         {/* Menu */}
         <button className='h-3/5'>
