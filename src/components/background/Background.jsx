@@ -8,11 +8,15 @@ const Background = (props) => {
   return (
     <>
       {/* Background */}
-      <div className='bg-background absolute min-h-screen w-full'>
+      <div className='bg-background absolute min-h-screen h-screen w-screen flex flex-col overflow-hidden'>
+
         {/* Navbar */}
         <Navbar />
 
-        {children}
+        {/* Content */}
+        <div className='h-screen w-screen px-6 py-6'>
+          {children}
+        </div>
       </div>
     </>
   )

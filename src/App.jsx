@@ -1,12 +1,15 @@
 import React from 'react'
 import Background from './components/background'
+import Lesson from './components/lesson'
+import Webcontainer from './components/webcontainer'
 
 const App = () => {
   return (
     <Background>
-      <h1 className="text-5xl font-bold underline">
-        Welcome to Accedemia!
-      </h1>
+      <div className='h-full flex flex-row space-x-5'>
+        <Lesson />
+        <Webcontainer />
+      </div>
     </Background>
   )
 }
