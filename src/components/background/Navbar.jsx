@@ -2,12 +2,15 @@ import React from 'react'
 import menuSvg from '../../assets/vectors/menu.svg'
 import accesibilityPng from '../../assets/images/accesibility.png'
 
-const Navbar = () => {
+const Navbar = (props) => {
+
+  const { setSidebar } = props
+
   return (
     <nav className='bg-gray-medium h-16 w-full border-b border-black'>
-      <div className='flex items-center h-full px-6 py-3'>
+      <div className='flex items-center h-16 px-6 py-3'>
         {/* Menu */}
-        <button className='h-3/5'>
+        <button onClick={() => setSidebar(true)} className='h-3/5'>
           <img src={menuSvg} alt='Menú de lecciones' className='h-full'/>
         </button>
 
