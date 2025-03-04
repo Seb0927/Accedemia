@@ -2,8 +2,10 @@ import { WebContainer } from '@webcontainer/api';
 
 import projectFiles from '../projectFiles.json';
 
+let webContainerInstance = null;
+
 export async function setupWebContainer() {
-  const webContainerInstance = await WebContainer.boot();
+  webContainerInstance = await WebContainer.boot();
 
   await webContainerInstance.mount(projectFiles)
   
@@ -26,3 +28,11 @@ export async function setupWebContainer() {
   const url = await serverReady;
   return url;
 }
+
+/** @param {string} content*/
+
+export async function writeIndexJS(content) {
+  console.log(webContainerInstance)
+  await webContainerInstance.fs.writeFile('/src/components/background/Background.jsx', content);
+};
+
