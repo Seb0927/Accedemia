@@ -6,7 +6,7 @@ const Page = (props) => {
 
   return (
     <div className='h-full w-[45%] bg-gray-dark border border-black'>
-      {/* <iframe src={iframeSrc} className='h-full w-full'></iframe> */}
+      <iframe src={iframeSrc} className='h-full w-full'></iframe>
     </div>
   )
 }
