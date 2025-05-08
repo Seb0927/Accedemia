@@ -3,8 +3,9 @@ import { Folder, FolderOpen, FileText } from 'lucide-react';
 import { buildFileStructure } from '../../../utils/fileTree';
 import projectFiles from '../../../projectFiles.json';
 
-const Directory = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+const Directory = (props) => {
+  const { selectedFile, setSelectedFile } = props;
+
   const [expandedDirs, setExpandedDirs] = useState({});
 
   const fileStructure = buildFileStructure(projectFiles.src.directory);

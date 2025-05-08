@@ -5,20 +5,22 @@ import Page from './Page';
 
 const Webcontainer = () => {
   const [iframeSrc, setIframeSrc] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  useEffect(() => {
-    const initializeWebContainer = async () => {
-      const url = await setupWebContainer();
-      setIframeSrc(url);
-    };
+  // Ctrl + K + C
+  // useEffect(() => {
+  //   const initializeWebContainer = async () => {
+  //     const url = await setupWebContainer();
+  //     setIframeSrc(url);
+  //   };
 
-    initializeWebContainer();
-  }, []);
+  //   initializeWebContainer();
+  // }, []);
 
   return (
     <>
-      <Code />
-      <Page iframeSrc={iframeSrc}/>
+      <Code selectedFile={selectedFile} setSelectedFile={setSelectedFile}/>
+      { /* <Page iframeSrc={iframeSrc}/> */}
     </>
   )
 }
