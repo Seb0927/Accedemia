@@ -19,7 +19,7 @@ const Background = (props) => {
         <Navbar setSidebar={setSidebar}/>
 
         {/* Content */}
-        <div className='h-screen w-screen px-6 py-6'>
+        <div className='h-full w-full px-6 py-6'>
           {children}
         </div>
       </div>
