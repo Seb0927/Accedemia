@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Folder, FolderOpen, FileText } from 'lucide-react';
 import { buildFileStructure } from '../../../utils/fileTree';
 import projectFiles from '../../../projectFiles.json';
@@ -8,6 +8,7 @@ const Directory = (props) => {
 
   const [expandedDirs, setExpandedDirs] = useState({});
 
+  // Start with src directory as the root
   const fileStructure = buildFileStructure(projectFiles.src.directory);
 
   const toggleDirectory = (path) => {
@@ -18,7 +19,11 @@ const Directory = (props) => {
   };
 
   const handleFileSelect = (filePath) => {
-    setSelectedFile(filePath);
+    // Add the "src/" prefix to make it a full path from project root
+    // This ensures WebContainer can find the file
+    const fullPath = `src/${filePath}`;
+    console.log("Selected file with full path:", fullPath);
+    setSelectedFile(fullPath);
   };
 
   const renderFileTree = (items, basePath = '') => {
@@ -45,11 +50,13 @@ const Directory = (props) => {
         );
       } else {
         const filePath = `${path}.${item.extension}`;
-        const isSelected = selectedFile === filePath;
+        // Check against the full path including "src/" prefix
+        const fullPath = `src/${filePath}`;
+        const isSelected = selectedFile === fullPath;
         return (
           <button
             key={filePath} 
-            className={`h-7 w-full flex items-center cursor-pointer px-2 py-1 hover:bg-slate-200 hover:rounded-l-md`}
+            className={`h-7 w-full flex items-center cursor-pointer px-2 py-1 hover:bg-slate-200 hover:rounded-l-md ${isSelected ? 'bg-slate-200' : ''}`}
             onClick={() => handleFileSelect(filePath)}
           >
             <FileText size={16} />
@@ -61,7 +68,7 @@ const Directory = (props) => {
   };
 
   return (
-    <div className="h-[25vh] w-full overflow-auto bg-background border border-black ">
+    <div className="h-[25vh] w-full overflow-auto bg-background border border-black">
       <ul>
         {renderFileTree(fileStructure)}
       </ul>
