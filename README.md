@@ -1,3 +1,0 @@
-# Accedemia
-
-Welcome to Accedemia!
