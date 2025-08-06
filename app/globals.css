@@ -4,12 +4,12 @@
 
 @plugin "daisyui/theme" {
   name: "accedemia-light";
-  default: true;
   /* set as default theme */
-  prefersdark: false;
+  default: true;
   /* set as default dark mode (prefers-color-scheme:dark) */
-  color-scheme: "light";
+  prefersdark: false;
   /* color of browser-provided UI */
+  color-scheme: "light";
 
   --color-base-100: oklch(98% 0.001 106.423);
   --color-base-200: oklch(97% 0.001 106.424);
@@ -33,7 +33,7 @@
   --color-error-content: oklch(96% 0.015 12.422);
 
   /* border radius */
-  --radius-selector: 0.25rem;
+  --radius-selector: 1rem;
   --radius-field: 0.5rem;
   --radius-box: 0.5rem;
 
@@ -56,9 +56,9 @@
   prefersdark: true;
   color-scheme: "dark";
 
-  --color-base-100: oklch(14% 0 0);
+  --color-base-100: oklch(26% 0 0);
   --color-base-200: oklch(20% 0 0);
-  --color-base-300: oklch(26% 0 0);
+  --color-base-300: oklch(14% 0 0);
   --color-base-content: oklch(97% 0 0);
   --color-primary: oklch(37% 0.146 265.522);
   --color-primary-content: oklch(97% 0.014 254.604);
@@ -78,9 +78,9 @@
   --color-error-content: oklch(96% 0.015 12.422);
 
   /* border radius */
-  --radius-selector: 0.5rem;
-  --radius-field: 1rem;
-  --radius-box: 1rem;
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
 
   /* base sizes */
   --size-selector: 0.25rem;
@@ -90,11 +90,9 @@
   --border: 1px;
 
   /* effects */
-  --depth: 0;
-  --noise: 0;
+  --depth: 1;
+  --noise: 1;
 }
-
-
 
 :root {
   --background: #ffffff;
