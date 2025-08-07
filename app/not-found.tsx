@@ -1,8 +1,6 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
-import { Home, ArrowLeft } from "lucide-react";
+import { Home } from "lucide-react";
 
 function NotFound() {
   return (
@@ -29,14 +27,6 @@ function NotFound() {
             <Home size={20} />
             Ir al Inicio
           </Link>
-          
-          <button  
-            onClick={() => window.history.back()} 
-            className="btn gap-2"
-          >
-            <ArrowLeft size={20} />
-            Regresar
-          </button>
         </div>
       </div>
     </div>
