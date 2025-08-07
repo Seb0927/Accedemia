@@ -10,7 +10,12 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends(
+    "next/core-web-vitals", 
+    "next/typescript",
+    "plugin:tailwindcss/recommended"
+  ),
+
   {
     rules: {
       // TypeScript-specific rules
@@ -18,7 +23,6 @@ const eslintConfig = [
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
-      "@typescript-eslint/prefer-const": "error",
       "@typescript-eslint/no-inferrable-types": "error",
       
       // General code quality
@@ -45,10 +49,10 @@ const eslintConfig = [
       "tailwindcss/enforces-negative-arbitrary-values": "warn",
       "tailwindcss/enforces-shorthand": "warn",
       "tailwindcss/migration-from-tailwind-2": "warn",
-      "tailwindcss/no-arbitrary-value": "off", // Allow arbitrary values
-      "tailwindcss/no-custom-classname": "warn",
+      "tailwindcss/no-arbitrary-value": "warn",
       "tailwindcss/no-contradicting-classname": "error",
       "tailwindcss/no-unnecessary-arbitrary-value": "warn",
+      "tailwindcss/no-custom-classname": "off", // This is because of DaisyUI
       
       // React/Next.js specific (since you're using Next.js)
       "react/prop-types": "off", // TypeScript handles this
