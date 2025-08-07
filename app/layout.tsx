@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,6 +16,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Accedemia",
   description: "Plataforma de aprendizaje para las Pautas de Accesibilidad Web (WCAG)",
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/images/dark-favicon.ico",
+        href: "/images/light-favicon.ico",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/images/icon.png",
+        href: "/images/dark-favicon.ico",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -24,10 +39,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <div className='bg-base-200 flex h-screen min-h-screen w-screen flex-col'>
+          <Navbar />
+          <div className="grow">
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
