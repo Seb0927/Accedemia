@@ -10,16 +10,16 @@ function Logo({ className }: Readonly<LogoProps>) {
   return (
     <div className={cn("relative object-contain", className)}>
       <Image
-        src='/images/light-logotype.png'
-        alt='Accedemia Logo'
-        className='block object-contain dark:hidden'
+        src="/images/light-logotype.png"
+        alt="Accedemia Logo"
+        className="block object-contain dark:hidden"
         loading="eager"
         fill
       />
       <Image
-        src='/images/dark-logotype.png'
-        alt='Accedemia Logo'
-        className='hidden object-contain dark:block'
+        src="/images/dark-logotype.png"
+        alt="Accedemia Logo"
+        className="hidden object-contain dark:block"
         loading="eager"
         fill
       />
