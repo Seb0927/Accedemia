@@ -14,16 +14,16 @@ export async function GET() {
       const id = file.replace('.md', '');
       
       const { principleNum, guidelineNum, criteriaNum } = extractWcagComponents(id);
-      const { principle, guideline, successCriteria } = lookupWcagInfo(
-        ruleMap, principleNum, guidelineNum, criteriaNum
+      const { principle, guideline, successCriteria, title } = lookupWcagInfo(
+        ruleMap, principleNum, guidelineNum, criteriaNum,
       );
       
       return {
         id,
+        title,
         principle,
         guideline,
         success_criteria: successCriteria,
-        filename: file,
       };
     });
 
