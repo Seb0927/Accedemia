@@ -17,17 +17,18 @@ export function lookupWcagInfo(
   ruleMap: WcagRuleMap, 
   principleNum: string, 
   guidelineNum: string, 
-  criteriaNum: string
-): { principle: string; guideline: string; successCriteria: string } {
+  criteriaNum: string,
+): { principle: string; guideline: string; successCriteria: string; title: string } {
   try {
     const principle = ruleMap[principleNum]?.name || '';
     const guideline = ruleMap[principleNum]?.guidelines[guidelineNum]?.name || '';
     const successCriteria = ruleMap[principleNum]?.guidelines[guidelineNum]?.criteria[criteriaNum]?.name || '';
+    const title = ruleMap[principleNum]?.guidelines[guidelineNum]?.criteria[criteriaNum]?.title || '';
     
-    return { principle, guideline, successCriteria };
+    return { principle, guideline, successCriteria, title };
   } catch (error) {
     console.error(`Error finding rule information:`, error);
-    return { principle: '', guideline: '', successCriteria: '' };
+    return { principle: '', guideline: '', successCriteria: '', title: '' };
   }
 }
 
