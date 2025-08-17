@@ -2,6 +2,7 @@ export interface SuccessCriterion {
   name: string;
   level: string;
   description: string;
+  title: string;
 }
 
 export interface Guideline {
