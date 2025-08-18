@@ -9,7 +9,10 @@ export async function GET() {
   
   const files = readdirSync(dir);
   const lessons = files
-    .filter((file) => file.endsWith('.md'))
+    .filter(file => 
+      file.endsWith('.md') && 
+      !['wcag-2-1-1.md', 'wcag-2-5-4.md', 'template.md'].includes(file)
+    )
     .map((file) => {
       const id = file.replace('.md', '');
       
