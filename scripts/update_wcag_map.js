@@ -17,7 +17,9 @@ lessonFiles.forEach(file => {
   const titleMatch = content.match(/^# (.+)/m);
   if (!titleMatch) return;
 
-  const title = titleMatch[1];
+  let title = titleMatch[1];
+  // Remove "WCAG X.X.X: " pattern from the title
+  title = title.replace(/^WCAG \d+\.\d+\.\d+:\s*/, '');
   const [_, p, g, c] = file.match(/wcag-(\d+)-(\d+)-(\d+)\.md/);
 
   // Update the wcag map with the title
