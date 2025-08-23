@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import { loadWcagRuleMap, extractWcagComponents, lookupWcagInfo } from '@/lib/wcag/utils';
+import { Lesson } from "@/types/curriculum";
 
 export async function GET() {
   const dir = join(process.cwd(), 'public', 'curriculum', 'lessons');
