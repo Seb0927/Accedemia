@@ -16,7 +16,16 @@ function Layout({ children }: LayoutProps) {
   const initializeLessons = useLessonStore((state) => state.initializeLessons);
   const setSelectedLesson = useLessonStore((state => state.setSelectedLesson));
 
-  const onClickDrawerItem = (lesson: Lesson) => {setSelectedLesson(lesson);};
+  const onClickDrawerItem = (lesson: Lesson) => {
+    // Close drawer
+    const drawer = document.getElementById("lessons-drawer") as HTMLInputElement;
+    if (drawer) {
+      drawer.checked = false;
+    }
+
+    // Set selected lesson
+    setSelectedLesson(lesson);
+  };
 
   useEffect(() => {
     async function fetchLessons() {
