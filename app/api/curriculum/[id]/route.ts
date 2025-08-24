@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { loadWcagRuleMap, extractWcagComponents, lookupWcagInfo } from "@/lib/wcag/utils";
+import { Lesson } from "@/types/curriculum";
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {
   const filePath = join(process.cwd(), "public", "curriculum", "lessons", `${params.id}.md`);
@@ -25,5 +26,5 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
     principle,
     guideline,
     success_criteria: successCriteria,
-  });
+  } as Lesson);
 }
