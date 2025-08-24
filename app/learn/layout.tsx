@@ -39,11 +39,11 @@ function Layout({ children }: LayoutProps) {
 
   return (
     <div className="h-full">
-      <div className="drawer">
+      <div className="drawer h-full">
         <input id="lessons-drawer" className="drawer-toggle" type="checkbox" />
 
         {/* Main Content */}
-        <div className="drawer-content">
+        <div className="drawer-content flex flex-col">
           {children}
         </div>
 
