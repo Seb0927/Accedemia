@@ -40,7 +40,7 @@ function Layout({ children }: LayoutProps) {
 
         {/* Drawer Content */}
         <div className="drawer-side">
-          <label className="drawer-overlay" htmlFor="lessons-drawer" aria-label="cerrar barra lateral" />
+          <label className="drawer-overlay" htmlFor="lessons-drawer" aria-label="Cerrar barra lateral" />
           <div className="menu bg-base-200 text-base-content flex min-h-full w-88 gap-2 p-4">
             <DrawerMenu title={"Principio 1: Perceptible"}>
               <ul>
