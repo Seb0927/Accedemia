@@ -26,7 +26,7 @@ const eslintConfig = [
       "@typescript-eslint/no-inferrable-types": "error",
       
       // General code quality
-      "no-console": "warn",
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
       "no-debugger": "error",
       "no-duplicate-imports": "error",
       "no-unused-expressions": "error",
