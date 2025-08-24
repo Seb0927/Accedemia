@@ -5,16 +5,16 @@ interface DrawerMenuInterface {
 
 function DrawerMenu({ title, children }: DrawerMenuInterface) {
   return (
-    <div className="collapse collapse-arrow bg-base-100 border-base-300 border">
+    <div className="collapse-arrow bg-base-100 border-base-300 collapse border">
       <input type="checkbox" />
-      <h2 className="collapse-title text-lg font-semibold border-base-300">
+      <h2 className="collapse-title border-base-300 text-lg font-semibold">
         {title}
       </h2>
-      <div className="-mt-2 collapse-content">
+      <div className="collapse-content -mt-2">
         {children}
       </div>
     </div>
-  )
+  );
 }
 
 export default DrawerMenu;

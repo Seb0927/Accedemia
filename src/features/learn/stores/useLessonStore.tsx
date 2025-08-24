@@ -32,7 +32,7 @@ export const useLessonStore = create<LessonStore>((set) => ({
   initializeLessons: (lessons) => 
     set({
       lessons: lessons,
-      lessonStatus: Object.fromEntries(lessons.map(id => [id, false]))
+      lessonStatus: Object.fromEntries(lessons.map(id => [id, false])),
     }),
 
   setSelectedLesson: (lesson) => 
@@ -56,6 +56,6 @@ export const useLessonStore = create<LessonStore>((set) => ({
     
   resetProgress: () => 
     set((state) => ({ 
-      lessonStatus: Object.fromEntries(state.lessons.map(lesson => [lesson.id, false]))
+      lessonStatus: Object.fromEntries(state.lessons.map(lesson => [lesson.id, false])),
     })),
 }));

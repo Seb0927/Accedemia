@@ -9,7 +9,7 @@ function NavMenu() {
       <li><Link href='/'>Lecciones</Link></li>
       <li><Link href='/credits'>Créditos</Link></li>
     </ul>
-  )
+  );
 }
 
 export default NavMenu;

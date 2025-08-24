@@ -4,7 +4,7 @@ interface DrawerItem {
   onClick: () => void,
 }
 
-function DrawerItem({id, title, onClick }: DrawerItem) {
+function DrawerItem({ id, title, onClick }: DrawerItem) {
   return (
     <li>
       <button 
@@ -17,7 +17,7 @@ function DrawerItem({id, title, onClick }: DrawerItem) {
         </div>
       </button>
     </li>
-  )
+  );
 }
 
-export default DrawerItem
+export default DrawerItem;

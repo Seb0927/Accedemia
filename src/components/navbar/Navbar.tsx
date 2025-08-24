@@ -4,7 +4,7 @@ import Logo from "@/components/Logo";
 
 function Navbar() {
   return (
-    <div className="navbar min-h-14 bg-base-100 shadow-sm z-1">
+    <div className="navbar bg-base-100 z-1 min-h-14 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost px-2">

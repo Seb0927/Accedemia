@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react'
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useLessonStore } from "@/features/learn/stores/useLessonStore";
-import DrawerMenu from '@/features/learn/components/Drawer/DrawerMenu';
-import DrawerItem from '@/features/learn/components/Drawer/DrawerItem';
+import DrawerMenu from "@/features/learn/components/Drawer/DrawerMenu";
+import DrawerItem from "@/features/learn/components/Drawer/DrawerItem";
 
 import { Lesson } from "@/types/curriculum";
 
@@ -12,25 +11,23 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-function layout({ children }: LayoutProps) {
+function Layout({ children }: LayoutProps) {
+  const lessons = useLessonStore((state) => state.lessons);
+  const initializeLessons = useLessonStore((state) => state.initializeLessons);
+  const setSelectedLesson = useLessonStore((state => state.setSelectedLesson));
 
-  const lessons = useLessonStore((state) => state.lessons)
-  const initializeLessons = useLessonStore((state) => state.initializeLessons)
-  const setSelectedLesson = useLessonStore((state => state.setSelectedLesson))
-
-  const onClickDrawerItem = (lesson: Lesson) => {setSelectedLesson(lesson)}
+  const onClickDrawerItem = (lesson: Lesson) => {setSelectedLesson(lesson);};
 
   useEffect(() => {
     async function fetchLessons() {
-      const response = await fetch('/api/curriculum');
+      const response = await fetch("/api/curriculum");
       const lessons: Lesson[] = await response.json();
       initializeLessons(lessons);
     }
 
     fetchLessons();
-  }, []);
+  }, [initializeLessons]);
 
-  console.log(lessons)
   return (
     <div className="h-full">
       <div className="drawer">
@@ -44,7 +41,7 @@ function layout({ children }: LayoutProps) {
         {/* Drawer Content */}
         <div className="drawer-side">
           <label className="drawer-overlay" htmlFor="lessons-drawer" aria-label="cerrar barra lateral" />
-          <div className="menu flex gap-2 bg-base-200 text-base-content min-h-full w-88 p-4">
+          <div className="menu bg-base-200 text-base-content flex min-h-full w-88 gap-2 p-4">
             <DrawerMenu title={"Principio 1: Perceptible"}>
               <ul>
                 {
@@ -113,7 +110,7 @@ function layout({ children }: LayoutProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default layout
+export default Layout;
