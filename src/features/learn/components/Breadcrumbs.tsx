@@ -1,3 +1,5 @@
+"use client";
+
 import { useLessonStore } from "@/features/learn/stores/useLessonStore";
 
 function Breadcrumbs() {
