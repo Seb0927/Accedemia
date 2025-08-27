@@ -25,6 +25,11 @@ function Layout({ children }: LayoutProps) {
 
     // Set selected lesson
     setSelectedLesson(lesson);
+
+    // Set query parameters without refreshing the page
+    const url = new URL(window.location.href);
+    url.searchParams.set("lesson", lesson.id);
+    window.history.pushState({}, "", url.toString());
   };
 
   useEffect(() => {
@@ -34,7 +39,22 @@ function Layout({ children }: LayoutProps) {
       initializeLessons(lessons);
     }
 
+    async function fetchInitialLesson() {
+      const url = new URL(window.location.href);
+      const lessonId = url.searchParams.get("lesson");
+      if (lessonId) {
+        const response = await fetch(`/api/curriculum/${lessonId}`);
+        if (response.ok) {
+          const lesson: Lesson = await response.json();
+          setSelectedLesson(lesson);
+        } else {
+          window.location.href = "/not-found";
+        }
+      }
+    }
+
     fetchLessons();
+    fetchInitialLesson();
   }, [initializeLessons]);
 
   return (
