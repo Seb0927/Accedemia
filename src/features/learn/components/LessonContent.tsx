@@ -34,7 +34,7 @@ function LessonContent() {
   }
 
   return (
-    <div className="p-4 overflow-auto">
+    <div className="p-8 overflow-auto">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeHighlight]}
