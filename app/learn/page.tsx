@@ -1,5 +1,5 @@
 import Card from "@/components/Card";
-import LessonContent from "@/features/learn/components/Lesson";
+import LessonContent from "@/features/learn/components/LessonContent";
 import Navigator from "@/features/learn/components/Navigator";
 
 export default function Page() {
