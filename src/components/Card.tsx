@@ -5,11 +5,13 @@ interface CardProps {
   children: React.ReactNode
 }
 
-function Card({className, children}: CardProps) {
+function Card({ className, children }: CardProps) {
   return (
-    <div className={cn("card card-border shadow-md", className)}>
-      <div className="card-body">
-        {children}
+    <div className={cn("h-full card card-border shadow-md relative", className)}>
+      <div className="h-full card-body p-0 relative">
+        <div className="overflow-auto p-6 h-full">
+          {children}
+        </div>
       </div>
     </div>
   )
