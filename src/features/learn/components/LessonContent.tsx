@@ -9,6 +9,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github.css';
 
+
 function LessonContent() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const selectedLesson = useLessonStore((state) => state.selectedLesson);
@@ -47,9 +48,12 @@ function LessonContent() {
           ol: ({ node, ...props }) => <ol className="list-decimal pl-5 my-4" {...props} />,
           li: ({ node, ...props }) => <li className="mb-1" {...props} />,
           a: ({ node, ...props }) => <a className="text-blue-600 hover:underline" {...props} />,
-          blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4" {...props} />}}
+          blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4" {...props} />,
+          code: ({ node, ...props }) => <code className="text-sm font-mono" {...props} />,
+          pre: ({ node, ...props }) => <pre className="text-xs bg-gray-50 p-3 rounded my-4 overflow-x-auto" {...props} />
+        }}
       >
-          { lesson.content }
+        {lesson.content}
       </ReactMarkdown>
     </div >
   );
