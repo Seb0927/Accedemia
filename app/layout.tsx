@@ -42,7 +42,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className='bg-base-200 flex h-screen min-h-screen w-screen flex-col'>
           <Navbar />
-          <div className="grow">
+          <div className="max-h-[calc(100vh-56px)] grow">
             {children}
           </div>
         </div>

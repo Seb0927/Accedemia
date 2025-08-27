@@ -6,8 +6,9 @@ export default function Page() {
   return (
     <>
       <Navigator />
-      <div className="grow w-full flex flex-row gap-2 p-4">
-        <Card className="h-full bg-base-100 flex-1">
+      {/* 56px (Header) + 44px (Navigator) = 100px */}
+      <div className="grow max-h-[calc(100vh-100px)] w-full flex flex-row gap-2 p-4">
+        <Card className="h-full bg-base-100 flex-1 max-w-1/3">
           <LessonContent />
         </Card>
         <Card className="h-full bg-base-100 flex-1">
