@@ -28,7 +28,7 @@ function LessonContent() {
 
   if (!lesson) {
     return (
-      <div>
+      <div className='p-8'>
         ¡Selecciona una lección por favor!
       </div>
     );
