@@ -12,10 +12,12 @@
   "dependencies": {
     "@webcontainer/api": "^1.6.1",
     "lucide-react": "^0.532.0",
+    "monaco-editor": "^0.52.2",
     "next": "15.4.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-markdown": "^10.1.0",
+    "react-monaco-editor": "^0.59.0",
     "rehype-highlight": "^7.0.2",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
