@@ -12,10 +12,10 @@ export default function Page() {
           <LessonContent />
         </Card>
         <Card className="h-full bg-base-100 flex-1">
-          <p>Hola :D</p>
+          <p>Editor de código</p>
         </Card>
         <Card className="h-full bg-base-100 flex-1">
-          <p>Hola :D</p>
+          <p>CompraFacilInaccesible</p>
         </Card>
       </div>
     </>
