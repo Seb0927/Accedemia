@@ -1,32 +1,25 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import { useLessonStore } from '../stores/useLessonStore';
-import { Lesson } from '@/types/curriculum';
+import useSWR from 'swr';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github.css';
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function LessonContent() {
-  const [lesson, setLesson] = useState<Lesson | null>(null);
   const selectedLesson = useLessonStore((state) => state.selectedLesson);
 
-  useEffect(() => {
-    async function fetchLesson() {
-      if (selectedLesson?.id) {
-        const response = await fetch("/api/curriculum/" + selectedLesson.id);
-        const lesson: Lesson = await response.json();
-        setLesson(lesson);
-      }
-    }
+  const { data: lesson } = useSWR(
+    selectedLesson?.id ? `/api/curriculum/${selectedLesson.id}` : null, 
+    fetcher,
+    { suspense: true }
+  );
 
-    fetchLesson();
-  }, [selectedLesson?.id]);
-
-  if (!lesson) {
+  if (!selectedLesson?.id) {
     return (
       <div className='p-8'>
         ¡Selecciona una lección por favor!
