@@ -11,6 +11,7 @@
     "generate-manifiest": "ts-node scripts/generate-manifest.js"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@webcontainer/api": "^1.6.1",
     "lucide-react": "^0.532.0",
     "monaco-editor": "^0.52.2",
