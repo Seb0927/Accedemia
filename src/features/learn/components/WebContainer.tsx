@@ -122,6 +122,12 @@ export default function WebContainerComponent() {
           className="w-full h-full border-0"
           title="CompraFacilInaccesible Preview"
           sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
+          style={{
+            transform: 'scale(0.7)', // width/height = (100 / scale) %
+            transformOrigin: 'top left',
+            width: '142.86%',  // Compensate for scaling to avoid empty space
+            height: '142.86%'  // Adjust based on your scale factor
+          }}
         />
       </div>
     </div>
