@@ -1,6 +1,7 @@
 import Card from "@/components/Card";
 import LessonContent from "@/features/learn/components/LessonContent";
 import Navigator from "@/features/learn/components/Navigator";
+import WebContainer from "@/features/learn/components/WebContainer";
 
 export default function Page() {
   return (
@@ -15,7 +16,7 @@ export default function Page() {
           <p>Editor de código</p>
         </Card>
         <Card className="h-full bg-base-100 flex-1">
-          <p>CompraFacilInaccesible</p>
+          <WebContainer />
         </Card>
       </div>
     </>
