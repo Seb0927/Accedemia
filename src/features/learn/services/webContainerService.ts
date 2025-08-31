@@ -125,6 +125,38 @@ export class WebContainerService {
     });
   }
 
+  // New methods for file operations
+  public async readFile(path: string): Promise<string> {
+    if (!this.instance) {
+      throw new Error('WebContainer not initialized');
+    }
+    
+    try {
+      const file = await this.instance.fs.readFile(path, 'utf-8');
+      return file;
+    } catch (error) {
+      console.error(`Error reading file ${path}:`, error);
+      throw error;
+    }
+  }
+
+  public async writeFile(path: string, content: string): Promise<void> {
+    if (!this.instance) {
+      throw new Error('WebContainer not initialized');
+    }
+    
+    try {
+      await this.instance.fs.writeFile(path, content);
+    } catch (error) {
+      console.error(`Error writing file ${path}:`, error);
+      throw error;
+    }
+  }
+
+  public isReady(): boolean {
+    return this.instance !== null;
+  }
+
   public teardown(): void {
     if (this.instance) {
       this.instance.teardown();
