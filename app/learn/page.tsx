@@ -2,6 +2,7 @@ import Card from "@/components/Card";
 import LessonContent from "@/features/learn/components/LessonContent";
 import Navigator from "@/features/learn/components/Navigator";
 import WebContainer from "@/features/learn/components/WebContainer";
+import CodeEditor from "@/features/learn/components/CodeEditor";
 
 export default function Page() {
   return (
@@ -13,7 +14,7 @@ export default function Page() {
           <LessonContent />
         </Card>
         <Card className="h-full bg-base-100 flex-1">
-          <p>Editor de código</p>
+          <CodeEditor />
         </Card>
         <Card className="h-full bg-base-100 flex-1">
           <WebContainer />
