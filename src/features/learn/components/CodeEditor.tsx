@@ -99,44 +99,48 @@ export default function CodeEditor() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="flex flex-col flex-3 h-full">
-        <div className="bg-slate-800 text-white p-2 text-sm flex justify-between items-center">
-          <span>Editor de Código: {filePath}</span>
-          {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
-          {error && <span className="text-xs text-red-300">{error}</span>}
-        </div>
-        <div className="flex-grow grid grid-cols-1 grid-rows-[1fr,220px]">
-          <div className="relative">
-            {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-70 z-10">
-                <div className="loading loading-spinner loading-md"></div>
-              </div>
-            )}
-            <Editor
-              height="100%"
-              defaultLanguage={monacoService.getLanguageFromPath(filePath)}
-              value={content}
-              onChange={handleEditorChange}
-              onMount={handleEditorDidMount}
-              beforeMount={handleBeforeMount}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                wordWrap: 'on',
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-              }}
-              theme="github-dark"
-            />
-          </div>
-        </div>
+    <div className="flex flex-col h-full w-full overflow-hidden">
+      {/* Header */}
+      <div className="bg-slate-800 text-white p-2 text-sm flex justify-between items-center">
+        <span>Editor de Código: {filePath}</span>
+        {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
+        {error && <span className="text-xs text-red-300">{error}</span>}
       </div>
-      <div className="flex-1 max-h-24 border-t border-slate-700">
-        <FileExplorer
-          onSelectFile={handleFileSelect}
-          currentFilePath={filePath}
-        />
+
+      {/* Content area - split with explicit percentages */}
+      <div className="flex flex-col h-[calc(100%-2.5rem)] overflow-hidden">
+        {/* Monaco editor area - 70% height */}
+        <div className="h-[70%] relative">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-70 z-10">
+              <div className="loading loading-spinner loading-md"></div>
+            </div>
+          )}
+          <Editor
+            height="100%"
+            defaultLanguage={monacoService.getLanguageFromPath(filePath)}
+            value={content}
+            onChange={handleEditorChange}
+            onMount={handleEditorDidMount}
+            beforeMount={handleBeforeMount}
+            options={{
+              minimap: { enabled: false },
+              fontSize: 14,
+              wordWrap: 'on',
+              scrollBeyondLastLine: false,
+              automaticLayout: true,
+            }}
+            theme="github-dark"
+          />
+        </div>
+
+        {/* File explorer area - 30% height */}
+        <div className="h-[30%] border-t border-slate-700 overflow-hidden">
+          <FileExplorer
+            onSelectFile={handleFileSelect}
+            currentFilePath={filePath}
+          />
+        </div>
       </div>
     </div>
   );
