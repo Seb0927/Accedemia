@@ -5,6 +5,7 @@ import Editor, { OnMount } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
 import webContainerService from '../services/webContainerService';
 import monacoService from '../services/monacoService';
+import FileExplorer from './FileExplorer';
 
 const DEFAULT_FILE_PATH = 'src/components/assistance/Assistance.jsx';
 
@@ -40,6 +41,11 @@ export default function CodeEditor() {
     loadFileContent();
   }, [filePath]);
 
+  // Handle file selection from the FileExplorer
+  const handleFileSelect = (path: string) => {
+    setFilePath(path);
+  };
+
   // Handle Monaco instance being loaded
   function handleBeforeMount(monacoInstance: typeof monaco) {
     // Initialize Shiki for Monaco (will only run once)
@@ -49,7 +55,7 @@ export default function CodeEditor() {
   // Handle editor mount
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     setEditorInstance(editor);
-    
+
     // Update language based on file extension
     const language = monacoService.getLanguageFromPath(filePath);
     const model = editor.getModel();
@@ -94,32 +100,42 @@ export default function CodeEditor() {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="bg-slate-800 text-white p-2 text-sm flex justify-between items-center">
-        <span>Editor de Código: {filePath}</span>
-        {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
-        {error && <span className="text-xs text-red-300">{error}</span>}
-      </div>
-      <div className="flex-grow relative">
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-70 z-10">
-            <div className="loading loading-spinner loading-md"></div>
+      <div className="flex flex-col flex-3 h-full">
+        <div className="bg-slate-800 text-white p-2 text-sm flex justify-between items-center">
+          <span>Editor de Código: {filePath}</span>
+          {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
+          {error && <span className="text-xs text-red-300">{error}</span>}
+        </div>
+        <div className="flex-grow grid grid-cols-1 grid-rows-[1fr,220px]">
+          <div className="relative">
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-70 z-10">
+                <div className="loading loading-spinner loading-md"></div>
+              </div>
+            )}
+            <Editor
+              height="100%"
+              defaultLanguage={monacoService.getLanguageFromPath(filePath)}
+              value={content}
+              onChange={handleEditorChange}
+              onMount={handleEditorDidMount}
+              beforeMount={handleBeforeMount}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+                wordWrap: 'on',
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+              }}
+              theme="github-dark"
+            />
           </div>
-        )}
-        <Editor
-          height="100%"
-          defaultLanguage={monacoService.getLanguageFromPath(filePath)}
-          value={content}
-          onChange={handleEditorChange}
-          onMount={handleEditorDidMount}
-          beforeMount={handleBeforeMount}
-          options={{
-            minimap: { enabled: false },
-            fontSize: 14,
-            wordWrap: 'on',
-            scrollBeyondLastLine: false,
-            automaticLayout: true,
-          }}
-          theme="github-dark"
+        </div>
+      </div>
+      <div className="flex-1 max-h-24 border-t border-slate-700">
+        <FileExplorer
+          onSelectFile={handleFileSelect}
+          currentFilePath={filePath}
         />
       </div>
     </div>
