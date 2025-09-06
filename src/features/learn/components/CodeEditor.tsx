@@ -110,7 +110,7 @@ export default function CodeEditor() {
       {/* Content area - split with explicit percentages */}
       <div className="flex flex-col h-[calc(100%-2.5rem)] overflow-hidden">
         {/* Monaco editor area - 70% height */}
-        <div className="h-[70%] relative">
+        <div className="h-7/10 relative">
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-70 z-10">
               <div className="loading loading-spinner loading-md"></div>
@@ -135,7 +135,7 @@ export default function CodeEditor() {
         </div>
 
         {/* File explorer area - 30% height */}
-        <div className="h-[30%] border-t border-slate-700 overflow-hidden">
+        <div className="h-3/10 border-t border-slate-700 overflow-hidden">
           <FileExplorer
             onSelectFile={handleFileSelect}
             currentFilePath={filePath}
