@@ -6,16 +6,19 @@ import * as monaco from 'monaco-editor';
 import webContainerService from '../services/webContainerService';
 import monacoService from '../services/monacoService';
 import FileExplorer from './FileExplorer';
+import { useSystemTheme } from '@/hooks/useSystemTheme';
 
 const DEFAULT_FILE_PATH = 'src/components/assistance/Assistance.jsx';
 
 export default function CodeEditor() {
+  const isDarkMode = useSystemTheme();
+  console.log(isDarkMode)
   const [content, setContent] = useState<string>('// Cargando...');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string>(DEFAULT_FILE_PATH);
   const [editorInstance, setEditorInstance] = useState<any>(null);
-
+  
   // Load file content when component mounts or file path changes
   useEffect(() => {
     async function loadFileContent() {
@@ -49,7 +52,7 @@ export default function CodeEditor() {
   // Handle Monaco instance being loaded
   function handleBeforeMount(monacoInstance: typeof monaco) {
     // Initialize Shiki for Monaco (will only run once)
-    monacoService.initialize(monacoInstance);
+    monacoService.initialize(monacoInstance, isDarkMode);
   }
 
   // Handle editor mount
@@ -130,7 +133,7 @@ export default function CodeEditor() {
               scrollBeyondLastLine: false,
               automaticLayout: true,
             }}
-            theme="github-dark"
+            theme={isDarkMode ? 'github-dark' : 'github-light'}
           />
         </div>
 

@@ -5,7 +5,7 @@ import * as monaco from 'monaco-editor';
 class MonacoService {
   private initialized = false;
   
-  async initialize(monacoInstance: typeof monaco): Promise<void> {
+  async initialize(monacoInstance: typeof monaco, isDarkMode: boolean = true): Promise<void> {
     if (this.initialized) return;
     
     try {
@@ -15,9 +15,13 @@ class MonacoService {
       monacoInstance.languages.register({ id: 'javascript' });
       monacoInstance.languages.register({ id: 'typescript' });
       
-      // Create the highlighter
+      // Create the highlighter with theme order based on system preference
+      const themes = isDarkMode 
+        ? ['github-dark', 'github-light']  // Dark first if system is dark
+        : ['github-light', 'github-dark']; // Light first if system is light
+      
       const highlighter = await createHighlighter({
-        themes: ['github-dark'],
+        themes,
         langs: ['javascript', 'typescript', 'jsx', 'tsx'],
       });
       
