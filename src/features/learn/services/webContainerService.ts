@@ -8,6 +8,13 @@ export type WebContainerStatus = {
   serverUrl?: string;
 };
 
+export type FileEntry = {
+  name: string;
+  path: string;
+  type: 'file' | 'directory';
+  children?: FileEntry[];
+};
+
 type StatusCallback = (status: WebContainerStatus) => void;
 
 export class WebContainerService {
@@ -161,6 +168,48 @@ export class WebContainerService {
     if (this.instance) {
       this.instance.teardown();
       this.instance = null;
+    }
+  }
+
+  public async getFileTree(path: string = '/'): Promise<FileEntry[]> {
+    if (!this.instance) {
+      throw new Error('WebContainer not initialized');
+    }
+    
+    try {
+      const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
+      const result: FileEntry[] = [];
+      
+      for (const entry of entries) {
+        const entryPath = path === '/' ? `/${entry.name}` : `${path}/${entry.name}`;
+        
+        if (entry.isDirectory()) {
+          const children = await this.getFileTree(entryPath);
+          result.push({
+            name: entry.name,
+            path: entryPath,
+            type: 'directory',
+            children
+          });
+        } else {
+          result.push({
+            name: entry.name,
+            path: entryPath,
+            type: 'file'
+          });
+        }
+      }
+      
+      // Sort: directories first, then files, both alphabetically
+      return result.sort((a, b) => {
+        if (a.type !== b.type) {
+          return a.type === 'directory' ? -1 : 1;
+        }
+        return a.name.localeCompare(b.name);
+      });
+    } catch (error) {
+      console.error(`Error reading directory ${path}:`, error);
+      throw error;
     }
   }
 }
