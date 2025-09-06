@@ -125,7 +125,7 @@ export default function CodeEditor() {
             beforeMount={handleBeforeMount}
             options={{
               minimap: { enabled: false },
-              fontSize: 14,
+              fontSize: 13,
               wordWrap: 'on',
               scrollBeyondLastLine: false,
               automaticLayout: true,
