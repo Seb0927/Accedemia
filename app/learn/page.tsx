@@ -13,10 +13,10 @@ export default function Page() {
         <Card className="h-full bg-base-100 flex-1 max-w-1/3">
           <LessonContent />
         </Card>
-        <Card className="h-full bg-base-100 flex-1">
+        <Card className="h-full bg-base-100 flex-1 max-w-1/3">
           <CodeEditor />
         </Card>
-        <Card className="h-full bg-base-100 flex-1">
+        <Card className="h-full bg-base-100 flex-1 max-w-1/3">
           <WebContainer />
         </Card>
       </div>
