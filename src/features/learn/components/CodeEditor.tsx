@@ -105,7 +105,7 @@ export default function CodeEditor() {
     <div className="flex flex-col h-full w-full overflow-hidden rounded-2xl">
       {/* Header */}
       <div className="bg-base-100 p-2 text-sm flex justify-between items-center">
-        <span>Editor de Código: {filePath}</span>
+        <span className='font-semibold'>Editor de Código: <span className='font-medium'>{filePath.split('/').pop()}</span></span>
         {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
         {error && <span className="text-xs text-red-300">{error}</span>}
       </div>
@@ -115,7 +115,7 @@ export default function CodeEditor() {
         {/* Monaco editor area - 70% height */}
         <div className="h-7/10 relative">
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-70 z-10">
+            <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-70 z-10">
               <div className="loading loading-spinner loading-md"></div>
             </div>
           )}
