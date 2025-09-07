@@ -60,7 +60,7 @@ export default function WebContainerComponent() {
         )}
         <iframe
           ref={iframeRef}
-          className="w-full h-full border-0"
+          className="w-full h-full rounded-xl"
           title="CompraFacilInaccesible Preview"
           sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
           style={{
