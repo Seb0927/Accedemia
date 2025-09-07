@@ -102,9 +102,9 @@ export default function CodeEditor() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden">
+    <div className="flex flex-col h-full w-full overflow-hidden rounded-2xl">
       {/* Header */}
-      <div className="bg-slate-800 text-white p-2 text-sm flex justify-between items-center">
+      <div className="bg-base-100 p-2 text-sm flex justify-between items-center">
         <span>Editor de Código: {filePath}</span>
         {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
         {error && <span className="text-xs text-red-300">{error}</span>}
@@ -138,7 +138,7 @@ export default function CodeEditor() {
         </div>
 
         {/* File explorer area - 30% height */}
-        <div className="h-3/10 border-t border-slate-700 overflow-hidden">
+        <div className="h-3/10 border-t border-base-300 overflow-hidden">
           <FileExplorer
             onSelectFile={handleFileSelect}
             currentFilePath={filePath}
