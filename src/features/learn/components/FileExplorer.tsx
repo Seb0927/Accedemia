@@ -58,8 +58,8 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
       return (
         <div key={item.path} style={{ paddingLeft: `${level * 16}px` }}>
           <div 
-            className={`flex items-center py-1 px-2 cursor-pointer hover:bg-slate-700 rounded ${
-              isSelected ? 'bg-slate-600' : ''
+            className={`flex items-center py-1 px-2 cursor-pointer hover:bg-base-100 rounded ${
+              isSelected ? 'bg-base-200' : ''
             }`}
             onClick={() => {
               if (item.type === 'directory') {
@@ -112,8 +112,8 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
   }
 
   return (
-    <div className="h-full overflow-auto bg-slate-800 text-white text-sm">
-      <div className="sticky top-0 bg-slate-800 p-2 border-b border-slate-700 flex justify-between items-center">
+    <div className="h-full overflow-auto bg-base-100 text-sm">
+      <div className="sticky top-0 bg-base-100 p-2 border-b border-base-300 flex justify-between items-center">
         <span className="font-medium">Explorador de archivos</span>
       </div>
       <div className="p-2">{renderFileTree(fileTree)}</div>
