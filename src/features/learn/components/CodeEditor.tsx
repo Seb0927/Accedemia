@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import webContainerService from '../services/webContainerService';
 import monacoService from '../services/monacoService';
 import FileExplorer from './FileExplorer';
@@ -12,12 +13,12 @@ const DEFAULT_FILE_PATH = 'src/components/assistance/Assistance.jsx';
 
 export default function CodeEditor() {
   const isDarkMode = useSystemTheme();
-  console.log(isDarkMode)
   const [content, setContent] = useState<string>('// Cargando...');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string>(DEFAULT_FILE_PATH);
   const [editorInstance, setEditorInstance] = useState<any>(null);
+  const [isExplorerVisible, setIsExplorerVisible] = useState<boolean>(true);
   
   // Load file content when component mounts or file path changes
   useEffect(() => {
@@ -46,6 +47,7 @@ export default function CodeEditor() {
 
   // Handle file selection from the FileExplorer
   const handleFileSelect = (path: string) => {
+    setIsExplorerVisible(false);
     setFilePath(path);
   };
 
@@ -110,10 +112,10 @@ export default function CodeEditor() {
         {error && <span className="text-xs text-red-300">{error}</span>}
       </div>
 
-      {/* Content area - split with explicit percentages */}
+      {/* Content area with dynamic sizing based on explorer visibility */}
       <div className="flex flex-col h-[calc(100%-2.5rem)] overflow-hidden">
-        {/* Monaco editor area - 70% height */}
-        <div className="h-7/10 z-0 relative">
+        {/* Monaco editor area - dynamic height */}
+        <div className={`${isExplorerVisible ? 'h-4/10' : 'h-full'} z-0 relative transition-all duration-300`}>
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-70 z-10">
               <div className="loading loading-spinner loading-md"></div>
@@ -137,12 +139,29 @@ export default function CodeEditor() {
           />
         </div>
 
-        {/* File explorer area - 30% height */}
-        <div className="h-3/10 border-t border-base-300 overflow-hidden">
-          <FileExplorer
-            onSelectFile={handleFileSelect}
-            currentFilePath={filePath}
-          />
+        {/* File explorer with toggle */}
+        <div className={`border-t border-base-300 overflow-hidden transition-all duration-300 ${
+          isExplorerVisible ? 'h-6/10' : 'h-8'
+        }`}>
+          {/* Explorer header with toggle button */}
+          <div 
+            className="sticky top-0 bg-base-100 p-2 border-b border-base-300 flex justify-between items-center cursor-pointer hover:bg-base-200"
+            onClick={() => setIsExplorerVisible(!isExplorerVisible)}
+          >
+            <span className="font-medium">Explorador de archivos</span>
+            {isExplorerVisible ? 
+              <ChevronDown size={16} className="text-base-content" /> : 
+              <ChevronUp size={16} className="text-base-content" />
+            }
+          </div>
+          
+          {/* Explorer content */}
+          <div className={`transition-all duration-300 ${isExplorerVisible ? 'h-[calc(100%-2.5rem)]' : 'h-0'} overflow-hidden`}>
+            <FileExplorer
+              onSelectFile={handleFileSelect}
+              currentFilePath={filePath}
+            />
+          </div>
         </div>
       </div>
     </div>

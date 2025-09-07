@@ -113,9 +113,6 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
 
   return (
     <div className="h-full overflow-auto bg-base-100 text-sm">
-      <div className="sticky top-0 bg-base-100 p-2 border-b border-base-300 flex justify-between items-center">
-        <span className="font-medium">Explorador de archivos</span>
-      </div>
       <div className="p-2">{renderFileTree(fileTree)}</div>
     </div>
   );
