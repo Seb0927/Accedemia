@@ -43,16 +43,16 @@ export default function WebContainerComponent() {
     <div className="w-full h-full flex flex-col">
       <div className="relative flex-1">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-80 z-10">
-            <div className="text-center p-4 rounded-lg bg-base-100 shadow-lg">
+          <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-80 z-10">
+            <div className="text-center p-4">
               <div className="loading loading-spinner loading-lg"></div>
               <p className="mt-2 font-medium">{status}</p>
             </div>
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-base-200 bg-opacity-80 z-10">
-            <div className="text-center p-4 rounded-lg bg-base-100 shadow-lg">
+          <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-80 z-10">
+            <div className="text-center p-4">
               <div className="text-error text-xl mb-2">⚠️ Ha ocurrido un error: </div>
               <p>{error}</p>
             </div>
