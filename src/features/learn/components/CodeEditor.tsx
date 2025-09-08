@@ -104,9 +104,9 @@ export default function CodeEditor() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden rounded-2xl">
+    <div className="flex flex-col h-full w-full overflow-hidden rounded-xl">
       {/* Header */}
-      <div className="bg-base-100 p-2 text-sm flex justify-between items-center">
+      <div className="h-10 bg-base-100 p-2 text-sm flex justify-between items-center">
         <span className='font-semibold'>Editor de Código: <span className='font-medium'>{filePath.split('/').pop()}</span></span>
         {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
         {error && <span className="text-xs text-red-300">{error}</span>}
@@ -141,7 +141,7 @@ export default function CodeEditor() {
 
         {/* File explorer with toggle */}
         <div className={`border-t border-base-300 overflow-hidden transition-all duration-300 ${
-          isExplorerVisible ? 'h-6/10' : 'h-8'
+          isExplorerVisible ? 'h-6/10' : 'h-10'
         }`}>
           {/* Explorer header with toggle button */}
           <div 
