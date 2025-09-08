@@ -41,7 +41,7 @@ export default function WebContainerComponent() {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="relative flex-1">
+      <div className="relative flex-1 z-0">
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-80 z-10">
             <div className="text-center p-4">
