@@ -103,10 +103,14 @@ export default function CodeEditor() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden rounded-xl">
+    <div className="flex size-full flex-col overflow-hidden rounded-xl">
       {/* Header */}
-      <div className="bg-base-100 flex h-10 items-center justify-between p-2 text-sm">
-        <span className='font-semibold'>Editor de Código: <span className='font-medium'>{filePath.split("/").pop()}</span></span>
+      <div className={`
+        flex h-10 items-center justify-between bg-base-100 p-2 text-sm
+      `}>
+        <span className='font-semibold'>Editor de Código: <span className={`
+          font-medium
+        `}>{filePath.split("/").pop()}</span></span>
         {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
         {error && <span className="text-xs text-red-300">{error}</span>}
       </div>
@@ -114,10 +118,16 @@ export default function CodeEditor() {
       {/* Content area with dynamic sizing based on explorer visibility */}
       <div className="flex h-[calc(100%-2.5rem)] flex-col overflow-hidden">
         {/* Monaco editor area - dynamic height */}
-        <div className={`${isExplorerVisible ? "h-4/10" : "h-full"} relative z-0 transition-all duration-300`}>
+        <div className={`
+          ${isExplorerVisible ? "h-4/10" : "h-full"}
+          relative z-0 transition-all duration-300
+        `}>
           {isLoading && (
-            <div className="bg-base-100 bg-opacity-70 absolute inset-0 z-10 flex items-center justify-center">
-              <div className="loading loading-spinner loading-md"></div>
+            <div className={`
+              bg-opacity-70 absolute inset-0 z-10 flex items-center
+              justify-center bg-base-100
+            `}>
+              <div className="loading loading-md loading-spinner"></div>
             </div>
           )}
           <Editor
@@ -139,12 +149,19 @@ export default function CodeEditor() {
         </div>
 
         {/* File explorer with toggle */}
-        <div className={`border-base-300 overflow-hidden border-t transition-all duration-300 ${
+        <div className={`
+          overflow-hidden border-t border-base-300 transition-all duration-300
+          ${
           isExplorerVisible ? "h-6/10" : "h-10"
-        }`}>
+        }
+        `}>
           {/* Explorer header with toggle button */}
           <div 
-            className="bg-base-100 border-base-300 hover:bg-base-200 sticky top-0 flex cursor-pointer items-center justify-between border-b p-2"
+            className={`
+              sticky top-0 flex cursor-pointer items-center justify-between
+              border-b border-base-300 bg-base-100 p-2
+              hover:bg-base-200
+            `}
             onClick={() => setIsExplorerVisible(!isExplorerVisible)}
           >
             <span className="font-medium">Explorador de archivos</span>
@@ -155,7 +172,11 @@ export default function CodeEditor() {
           </div>
           
           {/* Explorer content */}
-          <div className={`transition-all duration-300 ${isExplorerVisible ? "h-[calc(100%-2.5rem)]" : "h-0"} overflow-hidden`}>
+          <div className={`
+            transition-all duration-300
+            ${isExplorerVisible ? "h-[calc(100%-2.5rem)]" : "h-0"}
+            overflow-hidden
+          `}>
             <FileExplorer
               onSelectFile={handleFileSelect}
               currentFilePath={filePath}

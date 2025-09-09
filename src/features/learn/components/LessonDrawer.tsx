@@ -55,7 +55,9 @@ export default function LessonDrawer() {
   return (
     <div className="drawer-side">
       <label className="drawer-overlay" htmlFor="lessons-drawer" aria-label="Cerrar barra lateral" />
-      <div className="menu bg-base-200 text-base-content flex min-h-full w-88 gap-2 p-4">
+      <div className={`
+        menu flex min-h-full w-88 gap-2 bg-base-200 p-4 text-base-content
+      `}>
         <DrawerMenu title={"Principio 1: Perceptible"}>
           <ul>
             {lessons

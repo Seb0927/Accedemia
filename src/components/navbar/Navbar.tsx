@@ -4,17 +4,20 @@ import Logo from "@/components/Logo";
 
 function Navbar() {
   return (
-    <div className="navbar bg-base-100 z-1 min-h-14 shadow-sm">
+    <div className="z-1 navbar min-h-14 bg-base-100 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost px-2">
+          <div tabIndex={0} role="button" className="btn px-2 btn-ghost">
             <Menu />
           </div>
           <NavMenu />
         </div>
       </div>
       <div className="navbar-center">
-        <Logo className='h-6 w-64 md:h-7' />
+        <Logo className={`
+          h-6 w-64
+          md:h-7
+        `} />
       </div>
       <div className="navbar-end">
       </div>

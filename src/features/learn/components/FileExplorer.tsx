@@ -58,9 +58,13 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
       return (
         <div key={item.path} style={{ paddingLeft: `${level * 16}px` }}>
           <div 
-            className={`hover:bg-base-100 flex cursor-pointer items-center rounded px-2 py-1 ${
+            className={`
+              flex cursor-pointer items-center rounded px-2 py-1
+              hover:bg-base-100
+              ${
               isSelected ? "bg-base-200" : ""
-            }`}
+            }
+            `}
             onClick={() => {
               if (item.type === "directory") {
                 toggleFolder(item.path);
@@ -79,7 +83,10 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
             ) : (
               <File className="mr-2 ml-5 text-gray-400" size={16} />
             )}
-            <span className={`truncate text-sm ${isSelected ? "font-medium" : ""}`}>
+            <span className={`
+              truncate text-sm
+              ${isSelected ? "font-medium" : ""}
+            `}>
               {item.name}
             </span>
           </div>
@@ -97,7 +104,7 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
   if (isLoading) {
     return (
       <div className="flex h-full items-center justify-center p-4">
-        <div className="loading loading-spinner loading-sm"></div>
+        <div className="loading loading-sm loading-spinner"></div>
         <span className="ml-2 text-sm">Cargando archivos...</span>
       </div>
     );
@@ -105,14 +112,14 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
 
   if (error) {
     return (
-      <div className="text-error p-4 text-center">
+      <div className="p-4 text-center text-error">
         <p>{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-base-100 h-full overflow-auto text-sm">
+    <div className="h-full overflow-auto bg-base-100 text-sm">
       <div className="p-2">{renderFileTree(fileTree)}</div>
     </div>
   );

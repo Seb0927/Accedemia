@@ -40,27 +40,33 @@ export default function WebContainerComponent() {
   const { status, error, isLoading } = containerState;
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex size-full flex-col">
       <div className="relative z-0 flex-1">
         {isLoading && (
-          <div className="bg-base-100 bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center">
+          <div className={`
+            bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center
+            bg-base-100
+          `}>
             <div className="p-4 text-center">
-              <div className="loading loading-spinner loading-lg"></div>
+              <div className="loading loading-lg loading-spinner"></div>
               <p className="mt-2 font-medium">{status}</p>
             </div>
           </div>
         )}
         {error && (
-          <div className="bg-base-100 bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center">
+          <div className={`
+            bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center
+            bg-base-100
+          `}>
             <div className="p-4 text-center">
-              <div className="text-error mb-2 text-xl">⚠️ Ha ocurrido un error: </div>
+              <div className="mb-2 text-xl text-error">⚠️ Ha ocurrido un error: </div>
               <p>{error}</p>
             </div>
           </div>
         )}
         <iframe
           ref={iframeRef}
-          className="h-full w-full rounded-xl"
+          className="size-full rounded-xl"
           title="CompraFacilInaccesible Preview"
           sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
           style={{
