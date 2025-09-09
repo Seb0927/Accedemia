@@ -9,14 +9,14 @@ export default function Page() {
     <>
       <Navigator />
       {/* 56px (Header) + 44px (Navigator) = 100px */}
-      <div className="grow max-h-[calc(100vh-100px)] w-full flex flex-row gap-2 p-4">
-        <Card className="h-full bg-base-100 flex-1 max-w-1/3">
+      <div className="flex max-h-[calc(100vh-100px)] w-full grow flex-row gap-2 p-4">
+        <Card className="bg-base-100 h-full max-w-1/3 flex-1">
           <LessonContent />
         </Card>
-        <Card className="h-full bg-base-100 flex-1 max-w-1/3">
+        <Card className="bg-base-100 h-full max-w-1/3 flex-1">
           <CodeEditor />
         </Card>
-        <Card className="h-full bg-base-100 flex-1 max-w-1/3">
+        <Card className="bg-base-100 h-full max-w-1/3 flex-1">
           <WebContainer />
         </Card>
       </div>

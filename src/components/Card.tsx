@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn"
+import { cn } from "@/utils/cn";
 
 interface CardProps {
   className?: string
@@ -8,13 +8,13 @@ interface CardProps {
 function Card({ className, children }: CardProps) {
   return (
     <div className={cn("h-full card card-border shadow-md relative", className)}>
-      <div className="h-full card-body p-0 relative">
-        <div className="overflow-auto h-full">
+      <div className="card-body relative h-full p-0">
+        <div className="h-full overflow-auto">
           {children}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Card
+export default Card;

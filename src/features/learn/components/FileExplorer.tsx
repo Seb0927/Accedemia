@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Folder, File, ChevronDown, ChevronRight } from 'lucide-react';
-import webContainerService, { FileEntry } from '../services/webContainerService';
+import { useState, useEffect } from "react";
+import { Folder, File, ChevronDown, ChevronRight } from "lucide-react";
+import webContainerService, { FileEntry } from "../services/webContainerService";
 
 interface FileExplorerProps {
   onSelectFile: (path: string) => void;
@@ -12,7 +12,7 @@ interface FileExplorerProps {
 export default function FileExplorer({ onSelectFile, currentFilePath }: FileExplorerProps) {
   const [fileTree, setFileTree] = useState<FileEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['/src']));
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(["/src"]));
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,12 +24,12 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
 
       try {
         setIsLoading(true);
-        const tree = await webContainerService.getFileTree('/');
+        const tree = await webContainerService.getFileTree("/");
         setFileTree(tree);
         setError(null);
       } catch (err) {
-        console.error('Error loading file tree:', err);
-        setError('No se pudo cargar la estructura de archivos');
+        console.error("Error loading file tree:", err);
+        setError("No se pudo cargar la estructura de archivos");
       } finally {
         setIsLoading(false);
       }
@@ -58,18 +58,18 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
       return (
         <div key={item.path} style={{ paddingLeft: `${level * 16}px` }}>
           <div 
-            className={`flex items-center py-1 px-2 cursor-pointer hover:bg-base-100 rounded ${
-              isSelected ? 'bg-base-200' : ''
+            className={`hover:bg-base-100 flex cursor-pointer items-center rounded px-2 py-1 ${
+              isSelected ? "bg-base-200" : ""
             }`}
             onClick={() => {
-              if (item.type === 'directory') {
+              if (item.type === "directory") {
                 toggleFolder(item.path);
               } else {
                 onSelectFile(item.path);
               }
             }}
           >
-            {item.type === 'directory' ? (
+            {item.type === "directory" ? (
               <>
                 <span className="mr-1 text-lg">
                   {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -79,12 +79,12 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
             ) : (
               <File className="mr-2 ml-5 text-gray-400" size={16} />
             )}
-            <span className={`text-sm truncate ${isSelected ? 'font-medium' : ''}`}>
+            <span className={`truncate text-sm ${isSelected ? "font-medium" : ""}`}>
               {item.name}
             </span>
           </div>
           
-          {item.type === 'directory' && isExpanded && item.children && (
+          {item.type === "directory" && isExpanded && item.children && (
             <div>
               {renderFileTree(item.children, level + 1)}
             </div>
@@ -96,7 +96,7 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full p-4">
+      <div className="flex h-full items-center justify-center p-4">
         <div className="loading loading-spinner loading-sm"></div>
         <span className="ml-2 text-sm">Cargando archivos...</span>
       </div>
@@ -105,14 +105,14 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
 
   if (error) {
     return (
-      <div className="text-center text-error p-4">
+      <div className="text-error p-4 text-center">
         <p>{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-auto bg-base-100 text-sm">
+    <div className="bg-base-100 h-full overflow-auto text-sm">
       <div className="p-2">{renderFileTree(fileTree)}</div>
     </div>
   );

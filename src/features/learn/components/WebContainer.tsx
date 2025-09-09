@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import webContainerService, { WebContainerStatus } from '@/features/learn/services/webContainerService';
+import { useEffect, useRef, useState } from "react";
+import webContainerService, { WebContainerStatus } from "@/features/learn/services/webContainerService";
 
 export default function WebContainerComponent() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [containerState, setContainerState] = useState<WebContainerStatus>({
-    status: 'Iniciando...',
+    status: "Iniciando...",
     error: null,
-    isLoading: true
+    isLoading: true,
   });
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function WebContainerComponent() {
           }
         });
       } catch (err) {
-        console.error('Failed to initialize WebContainer:', err);
+        console.error("Failed to initialize WebContainer:", err);
       }
     }
 
@@ -40,34 +40,34 @@ export default function WebContainerComponent() {
   const { status, error, isLoading } = containerState;
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="relative flex-1 z-0">
+    <div className="flex h-full w-full flex-col">
+      <div className="relative z-0 flex-1">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-80 z-10">
-            <div className="text-center p-4">
+          <div className="bg-base-100 bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center">
+            <div className="p-4 text-center">
               <div className="loading loading-spinner loading-lg"></div>
               <p className="mt-2 font-medium">{status}</p>
             </div>
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-80 z-10">
-            <div className="text-center p-4">
-              <div className="text-error text-xl mb-2">⚠️ Ha ocurrido un error: </div>
+          <div className="bg-base-100 bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center">
+            <div className="p-4 text-center">
+              <div className="text-error mb-2 text-xl">⚠️ Ha ocurrido un error: </div>
               <p>{error}</p>
             </div>
           </div>
         )}
         <iframe
           ref={iframeRef}
-          className="w-full h-full rounded-xl"
+          className="h-full w-full rounded-xl"
           title="CompraFacilInaccesible Preview"
           sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
           style={{
-            transform: 'scale(0.7)', // width/height = (100 / scale) %
-            transformOrigin: 'top left',
-            width: '142.86%',  // Compensate for scaling to avoid empty space
-            height: '142.86%'  // Adjust based on your scale factor
+            transform: "scale(0.7)", // width/height = (100 / scale) %
+            transformOrigin: "top left",
+            width: "142.86%",  // Compensate for scaling to avoid empty space
+            height: "142.86%",  // Adjust based on your scale factor
           }}
         />
       </div>
