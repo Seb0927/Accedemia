@@ -11,24 +11,29 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends(
-    "next/core-web-vitals", 
+    "next/core-web-vitals",
     "next/typescript",
+    "plugin:better-tailwindcss/recommended"
   ),
-
   {
-    rules: {      
+    settings: {
+      "better-tailwindcss": {
+        "entryPoint": "app/globals.css",
+      }
+    },
+    rules: {
       // General code quality
       "no-console": ["warn", { "allow": ["warn", "error"] }],
       "no-debugger": "error",
       "no-duplicate-imports": "error",
       "no-unused-expressions": "error",
-      
+
       // Best practices
       "eqeqeq": ["error", "always"],
       "curly": ["error", "all"],
       "prefer-const": "error",
       "no-var": "error",
-      
+
       // Code style
       "semi": ["error", "always"],
       "quotes": ["error", "double"],
@@ -36,16 +41,16 @@ const eslintConfig = [
       "object-curly-spacing": ["error", "always"],
       "array-bracket-spacing": ["error", "never"],
 
-      // Tailwind CSS specific
-      "tailwindcss/classnames-order": "warn",
-      "tailwindcss/enforces-negative-arbitrary-values": "warn",
-      "tailwindcss/enforces-shorthand": "warn",
-      "tailwindcss/migration-from-tailwind-2": "warn",
-      "tailwindcss/no-arbitrary-value": "warn",
-      "tailwindcss/no-contradicting-classname": "error",
-      "tailwindcss/no-unnecessary-arbitrary-value": "warn",
-      "tailwindcss/no-custom-classname": "off", // This is because of DaisyUI
-      
+      // Better Tailwind CSS rules
+      "better-tailwindcss/enforce-consistent-class-order": "warn",
+      "better-tailwindcss/enforce-consistent-line-wrapping": "warn",
+      "better-tailwindcss/enforce-shorthand-classes": "warn",
+      "better-tailwindcss/no-duplicate-classes": "error",
+      "better-tailwindcss/no-unnecessary-whitespace": "warn",
+      // This rule is disabled for DaisyUI
+      "better-tailwindcss/no-unregistered-classes": "off",
+      "better-tailwindcss/no-conflicting-classes": "error",
+
       // React/Next.js specific (since you're using Next.js)
       "react/prop-types": "off", // TypeScript handles this
       "react/react-in-jsx-scope": "off", // Not needed in Next.js
