@@ -96,7 +96,6 @@ export default function CodeEditor() {
 
     try {
       await webContainerService.writeFile(filePath, value);
-      console.log(`File ${filePath} saved successfully`);
     } catch (err) {
       console.error(`Error saving file ${filePath}:`, err);
       setError(`No se pudo guardar el archivo ${filePath}`);

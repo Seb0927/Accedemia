@@ -17,7 +17,7 @@ export default function WebContainerComponent() {
 
     async function initializeContainer() {
       try {
-        const instance = await webContainerService.start();
+        await webContainerService.start();
         
         webContainerService.onServerReady((url) => {
           if (iframeRef.current) {

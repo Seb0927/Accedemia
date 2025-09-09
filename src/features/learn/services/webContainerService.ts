@@ -65,13 +65,13 @@ export class WebContainerService {
       const installProcess = await instance.spawn("npm", ["install"]);
 
       // Stream install logs
-      installProcess.output.pipeTo(
-        new WritableStream({
-          write: (data: string) => {
-            console.log("npm install:", data);
-          },
-        }),
-      );
+      // installProcess.output.pipeTo(
+      //   new WritableStream({
+      //     write: (data: string) => {
+      //       // console.log("npm install:", data);
+      //     },
+      //   }),
+      // );
 
       const installExitCode = await installProcess.exit;
 
@@ -87,7 +87,7 @@ export class WebContainerService {
       devProcess.output.pipeTo(
         new WritableStream({
           write: (data: string) => {
-            console.log("dev server:", data);
+            // console.log("dev server:", data);
             // Update status with the server URL
             if (data.includes("Local:")) {
               const urlMatch = data.match(/Local:\s+(http:\/\/localhost:\d+)/);
