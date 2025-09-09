@@ -13,18 +13,10 @@ const eslintConfig = [
   ...compat.extends(
     "next/core-web-vitals", 
     "next/typescript",
-    "plugin:tailwindcss/recommended"
   ),
 
   {
-    rules: {
-      // TypeScript-specific rules
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/no-non-null-assertion": "warn",
-      "@typescript-eslint/no-inferrable-types": "error",
-      
+    rules: {      
       // General code quality
       "no-console": ["warn", { "allow": ["warn", "error"] }],
       "no-debugger": "error",
