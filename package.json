@@ -11,6 +11,7 @@
     "generate-manifiest": "ts-node scripts/generate-manifest.js"
   },
   "dependencies": {
+    "@google/genai": "^1.19.0",
     "@monaco-editor/react": "^4.7.0",
     "@shikijs/monaco": "^3.12.2",
     "@webcontainer/api": "^1.6.1",
