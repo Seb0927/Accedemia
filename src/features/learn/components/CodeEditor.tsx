@@ -17,7 +17,6 @@ export default function CodeEditor() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string>(DEFAULT_FILE_PATH);
-  const [editorInstance, setEditorInstance] = useState<any>(null);
   const [isExplorerVisible, setIsExplorerVisible] = useState<boolean>(true);
   
   // Load file content when component mounts or file path changes
@@ -59,8 +58,6 @@ export default function CodeEditor() {
 
   // Handle editor mount
   const handleEditorDidMount: OnMount = (editor, monaco) => {
-    setEditorInstance(editor);
-
     // Update language based on file extension
     const language = monacoService.getLanguageFromPath(filePath);
     const model = editor.getModel();
