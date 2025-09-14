@@ -10,9 +10,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const {
-      lessonTitle,
       successCriterion,
-      originalCode,
       studentCode,
     } = body;
 
@@ -26,28 +24,25 @@ export async function POST(request: Request) {
 
     // Load instructions from the file
     const instructions = await fetchEvaluationInstructions();
+    
+    // Load the specific prompt for this criterion
+    const promptContent = await fetchPromptForCriterion(successCriterion);
+    
+    if (!promptContent) {
+      return NextResponse.json(
+        { error: `No prompt found for criterion: ${successCriterion}` },
+        { status: 404 },
+      );
+    }
 
     // Create prompt for the model
     const prompt = `
-    # Evaluate Web Accessibility
+    ${promptContent}
 
-    ## Lesson Information
-    - Title: ${lessonTitle}
-    - Criterion: ${successCriterion}
-
-    ## Code to Evaluate
-    Original Code (inaccessible):
-    \`\`\`
-    ${originalCode}
-    \`\`\`
-
-    Student Solution:
-    \`\`\`
     ${studentCode}
-    \`\`\`
+    `
 
-    ${instructions}
-    `;
+    console.log(prompt)
 
     // Generate content with the model
     const result = await genAI.models.generateContent({
@@ -74,6 +69,7 @@ export async function POST(request: Request) {
           required: ["success", "explanation", "technique"],
           propertyOrdering: ["success", "explanation", "technique"],
         },
+        systemInstruction: instructions,
       },
     });
 
@@ -123,5 +119,36 @@ async function fetchEvaluationInstructions() {
   } catch (error) {
     console.error("Failed to read instructions from filesystem:", error);
     return "";
+  }
+}
+
+// Helper function to fetch the prompt for a specific criterion
+async function fetchPromptForCriterion(criterion: string) {
+  try {
+    // Extract WCAG number (e.g., "1.1.1" from "1.1.1 Non-text Content (Level A)")
+    const wcagNumberMatch = criterion;
+    console.log(`Extracted WCAG number: ${wcagNumberMatch}`);
+    
+    if (!wcagNumberMatch) {
+      console.error(`Could not extract WCAG number from criterion: ${criterion}`);
+      return null;
+    }
+    
+    const wcagFileName = `${criterion}.md`;
+    const promptPath = path.join(process.cwd(), "public", "curriculum", "prompts", wcagFileName);
+    
+    console.log(`Looking for prompt file: ${promptPath}`);
+    
+    try {
+      return await fs.readFile(promptPath, "utf-8");
+    } catch (fileError) {
+      console.error(`Prompt file not found: ${wcagFileName}`, fileError);
+      // If specific file not found, try using the template
+      const templatePath = path.join(process.cwd(), "public", "curriculum", "prompts", "template.md");
+      return await fs.readFile(templatePath, "utf-8");
+    }
+  } catch (error) {
+    console.error("Error fetching prompt:", error);
+    return null;
   }
 }
