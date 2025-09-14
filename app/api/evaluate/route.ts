@@ -42,8 +42,6 @@ export async function POST(request: Request) {
     ${studentCode}
     `
 
-    console.log(prompt)
-
     // Generate content with the model
     const result = await genAI.models.generateContent({
       model: "gemini-2.0-flash",
@@ -136,8 +134,6 @@ async function fetchPromptForCriterion(criterion: string) {
     
     const wcagFileName = `${criterion}.md`;
     const promptPath = path.join(process.cwd(), "public", "curriculum", "prompts", wcagFileName);
-    
-    console.log(`Looking for prompt file: ${promptPath}`);
     
     try {
       return await fs.readFile(promptPath, "utf-8");
