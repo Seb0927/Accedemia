@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     ${promptContent}
 
     ${studentCode}
-    `
+    `;
 
     // Generate content with the model
     const result = await genAI.models.generateContent({
@@ -125,7 +125,6 @@ async function fetchPromptForCriterion(criterion: string) {
   try {
     // Extract WCAG number (e.g., "1.1.1" from "1.1.1 Non-text Content (Level A)")
     const wcagNumberMatch = criterion;
-    console.log(`Extracted WCAG number: ${wcagNumberMatch}`);
     
     if (!wcagNumberMatch) {
       console.error(`Could not extract WCAG number from criterion: ${criterion}`);

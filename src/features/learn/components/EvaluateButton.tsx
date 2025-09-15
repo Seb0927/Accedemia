@@ -36,7 +36,7 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
   }, [result, error]);
   
   async function evaluateCode() {
-    if (!selectedLesson) return;
+    if (!selectedLesson) {return;}
     
     setIsEvaluating(true);
     setResult(null);
@@ -114,15 +114,19 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
       
       {/* Toast notifications */}
       {showToast && (
-        <div className="toast toast-end toast-bottom z-50 max-w-2xl">
+        <div className="toast-end toast-bottom toast z-50 max-w-2xl">
           {result && (
-            <div className={`alert ${result.success ? 'alert-success' : 'alert-error'} shadow-lg`}>
+            <div className={`
+              alert
+              ${result.success ? "alert-success" : "alert-error"}
+              shadow-lg
+            `}>
               <div className="flex w-full justify-between">
                 <div className="flex items-start gap-2">
                   {result.success ? (
-                    <CheckCircle className="h-6 w-6 shrink-0 stroke-current" />
+                    <CheckCircle className="size-6 shrink-0 stroke-current" />
                   ) : (
-                    <XCircle className="h-6 w-6 shrink-0 stroke-current" />
+                    <XCircle className="size-6 shrink-0 stroke-current" />
                   )}
                   <div className="flex flex-col">
                     <span className="font-bold">{result.success ? "¡Correcto!" : "Incorrecto"}</span>
@@ -131,7 +135,9 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                       <span className="mt-1 text-xs font-medium">Técnica: {result.technique}</span>
                     )}
                     {result.success && (
-                      <span className="mt-1 text-xs font-medium text-success-content">
+                      <span className={`
+                        mt-1 text-xs font-medium text-success-content
+                      `}>
                         Progreso guardado correctamente
                       </span>
                     )}
@@ -149,7 +155,7 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
             <div className="alert alert-error shadow-lg">
               <div className="flex w-full justify-between">
                 <div className="flex items-start gap-2">
-                  <XCircle className="h-6 w-6 shrink-0 stroke-current" />
+                  <XCircle className="size-6 shrink-0 stroke-current" />
                   <div className="flex flex-col">
                     <span className="font-bold">Error</span>
                     <span className="text-sm">{error}</span>

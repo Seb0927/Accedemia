@@ -41,8 +41,8 @@ export const useLessonStore = create<LessonStore>()(
             lessons.map(lesson => [
               lesson.id,
               // Use existing status if available, otherwise false
-              existingStatus[lesson.id] || false
-            ])
+              existingStatus[lesson.id] || false,
+            ]),
           );
 
           return {
@@ -89,6 +89,6 @@ export const useLessonStore = create<LessonStore>()(
       partialize: (state) => ({
         lessonStatus: state.lessonStatus,
       }),
-    }
-  )
+    },
+  ),
 );

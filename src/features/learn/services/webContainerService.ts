@@ -5,7 +5,7 @@ const LS_WEBCONTAINER_FILES = "accedemia_webcontainer_files";
 const LS_WEBCONTAINER_LAST_MODIFIED = "accedemia_webcontainer_last_modified";
 
 // Helper to check if code is running in browser
-const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
 
 export type WebContainerStatus = {
   status: string;
@@ -48,13 +48,13 @@ export class WebContainerService {
 
   // Check if there are saved files in localStorage
   private hasSavedFiles(): boolean {
-    if (!isBrowser) return false;
+    if (!isBrowser) {return false;}
     return localStorage.getItem(LS_WEBCONTAINER_FILES) !== null;
   }
 
   // Load files from localStorage
   private loadFilesFromStorage(): FileSystemTree | null {
-    if (!isBrowser) return null;
+    if (!isBrowser) {return null;}
 
     try {
       const savedFiles = localStorage.getItem(LS_WEBCONTAINER_FILES);
@@ -69,23 +69,19 @@ export class WebContainerService {
 
   // Save the current file system to localStorage
   public async saveFilesToStorage(): Promise<boolean> {
-    if (!isBrowser) return false;
+    if (!isBrowser) {return false;}
     if (!this.instance) {
       console.error("Cannot save files: WebContainer not initialized");
       return false;
     }
 
     try {
-      console.log("Starting to save WebContainer files to localStorage...");
-
       // Get file system structure directly in the required format
       const files = await this.getFileSystemTree("/");
 
       // Save to localStorage
       localStorage.setItem(LS_WEBCONTAINER_FILES, JSON.stringify(files));
       localStorage.setItem(LS_WEBCONTAINER_LAST_MODIFIED, Date.now().toString());
-
-      console.log("Project files saved to localStorage");
       return true;
     } catch (error) {
       console.error("Error saving files to localStorage:", error);
@@ -100,7 +96,7 @@ export class WebContainerService {
     if (entry.type === "directory") {
       // Create directory entry
       files[fullPath] = {
-        directory: {}
+        directory: {},
       };
 
       // Process children recursively
@@ -115,8 +111,8 @@ export class WebContainerService {
         const content = await this.readFile(entry.path);
         files[fullPath] = {
           file: {
-            contents: content
-          }
+            contents: content,
+          },
         };
       } catch (error) {
         console.error(`Error reading file ${entry.path}:`, error);
@@ -126,7 +122,7 @@ export class WebContainerService {
 
   // Reset to original project state
   public async resetToOriginal(): Promise<boolean> {
-    if (!isBrowser) return false;
+    if (!isBrowser) {return false;}
 
     try {
       // Clear localStorage
@@ -156,8 +152,6 @@ export class WebContainerService {
         if (savedFiles) {
           this.updateStatus({ status: "Cargando archivos guardados...", isLoading: true });
           files = savedFiles;
-          console.log("Loaded files")
-          console.log(files)
         } else {
           // Fetch the manifest file if saved files are invalid
           this.updateStatus({ status: "Descargando proyecto original...", isLoading: true });
@@ -167,8 +161,6 @@ export class WebContainerService {
         // Fetch the original manifest
         this.updateStatus({ status: "Descargando proyecto original...", isLoading: true });
         files = await this.fetchOriginalFiles();
-        console.log("Fetched original files")
-        console.log(files)
       }
 
       // Boot the WebContainer
@@ -294,7 +286,7 @@ export class WebContainerService {
     }
 
     // Directories to exclude from saving
-    const excludedDirs = ['node_modules', '.git', 'audio', '.github',];
+    const excludedDirs = ["node_modules", ".git", "audio", ".github"];
 
     try {
       const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
@@ -305,7 +297,6 @@ export class WebContainerService {
 
         // Skip excluded directories
         if (entry.isDirectory() && excludedDirs.includes(entry.name)) {
-          console.log(`Skipping excluded directory: ${entryPath}`);
           continue;
         }
 
@@ -345,7 +336,7 @@ export class WebContainerService {
     }
 
     // Directories to exclude from saving
-    const excludedDirs = ['node_modules', '.git', 'audio', '.github', 'dist', 'build', '.cache'];
+    const excludedDirs = ["node_modules", ".git", "audio", ".github", "dist", "build", ".cache"];
 
     try {
       const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
@@ -354,7 +345,6 @@ export class WebContainerService {
       for (const entry of entries) {
         // Skip excluded directories
         if (entry.isDirectory() && excludedDirs.includes(entry.name)) {
-          console.log(`Skipping excluded directory: ${path === "/" ? "/" : path + "/"}${entry.name}`);
           continue;
         }
 
@@ -364,7 +354,7 @@ export class WebContainerService {
         if (entry.isDirectory()) {
           // Recursively process directories
           result[entry.name] = {
-            directory: await this.getFileSystemTree(entryPath)
+            directory: await this.getFileSystemTree(entryPath),
           };
         } else {
           // Read file contents
@@ -372,16 +362,16 @@ export class WebContainerService {
             const content = await this.readFile(entryPath);
             result[entry.name] = {
               file: {
-                contents: content
-              }
+                contents: content,
+              },
             };
           } catch (error) {
             console.error(`Error reading file ${entryPath}:`, error);
             // For files that can't be read, store as empty
             result[entry.name] = {
               file: {
-                contents: ''
-              }
+                contents: "",
+              },
             };
           }
         }
