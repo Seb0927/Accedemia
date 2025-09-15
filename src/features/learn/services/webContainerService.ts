@@ -31,6 +31,7 @@ export class WebContainerService {
     this.updateStatus = this.updateStatus.bind(this);
   }
 
+  // Update status and notify callback
   private updateStatus(status: Partial<WebContainerStatus>) {
     if (this.statusCallback) {
       this.statusCallback({
@@ -42,6 +43,7 @@ export class WebContainerService {
     }
   }
 
+  // Register a status callback
   public setStatusCallback(callback: StatusCallback) {
     this.statusCallback = callback;
   }
