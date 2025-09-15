@@ -1,11 +1,9 @@
+import { isBrowser } from "@/utils/environment";
 import { WebContainer, FileSystemTree } from "@webcontainer/api";
 
 // Constants for localStorage
 const LS_WEBCONTAINER_FILES = "accedemia_webcontainer_files";
 const LS_WEBCONTAINER_LAST_MODIFIED = "accedemia_webcontainer_last_modified";
-
-// Helper to check if code is running in browser
-const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
 
 export type WebContainerStatus = {
   status: string;
@@ -306,7 +304,7 @@ export class WebContainerService {
       throw error;
     }
   }
-  
+
   // Recursively get the full file system tree for WebContainer API
   public async getFileSystemTree(path = "/"): Promise<FileSystemTree> {
     if (!this.instance) {
