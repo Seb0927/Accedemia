@@ -89,37 +89,6 @@ export class WebContainerService {
     }
   }
 
-  // Helper to process a file entry recursively
-  private async processFileEntry(entry: FileEntry, files: FileSystemTree, parentPath = ""): Promise<void> {
-    const fullPath = parentPath ? `${parentPath}/${entry.name}` : entry.name;
-
-    if (entry.type === "directory") {
-      // Create directory entry
-      files[fullPath] = {
-        directory: {},
-      };
-
-      // Process children recursively
-      if (entry.children) {
-        for (const child of entry.children) {
-          await this.processFileEntry(child, files, fullPath);
-        }
-      }
-    } else {
-      // Get file content
-      try {
-        const content = await this.readFile(entry.path);
-        files[fullPath] = {
-          file: {
-            contents: content,
-          },
-        };
-      } catch (error) {
-        console.error(`Error reading file ${entry.path}:`, error);
-      }
-    }
-  }
-
   // Reset to original project state
   public async resetToOriginal(): Promise<boolean> {
     if (!isBrowser) {return false;}
