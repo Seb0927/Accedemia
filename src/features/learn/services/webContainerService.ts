@@ -1,10 +1,6 @@
 import { isBrowser } from "@/utils/environment";
 import { WebContainer, FileSystemTree } from "@webcontainer/api";
 
-// Constants for localStorage
-const LS_WEBCONTAINER_FILES = "accedemia_webcontainer_files";
-const LS_WEBCONTAINER_LAST_MODIFIED = "accedemia_webcontainer_last_modified";
-
 export type WebContainerStatus = {
   status: string;
   error: string | null;
@@ -19,11 +15,25 @@ export type FileEntry = {
   children?: FileEntry[];
 };
 
+const DEFAULT_CONFIG = {
+  excludedDirectories: ["node_modules", ".git", "audio", ".github", "dist"],
+  storageKeys: {
+    files: "accedemia_webcontainer_files",
+    lastModified: "accedemia_webcontainer_last_modified"
+  },
+  defaultStatus: {
+    status: "Inactivo",
+    error: null,
+    isLoading: false
+  }
+};
+
 type StatusCallback = (status: WebContainerStatus) => void;
 
 export class WebContainerService {
   private instance: WebContainer | null = null;
   private statusCallback: StatusCallback | null = null;
+  private config = DEFAULT_CONFIG;
 
   constructor() {
     this.updateStatus = this.updateStatus.bind(this);
@@ -33,9 +43,7 @@ export class WebContainerService {
   private updateStatus(status: Partial<WebContainerStatus>) {
     if (this.statusCallback) {
       this.statusCallback({
-        status: "Inactivo",
-        error: null,
-        isLoading: false,
+        ...this.config.defaultStatus,
         ...status,
       });
     }
@@ -49,7 +57,7 @@ export class WebContainerService {
   // Check if there are saved files in localStorage
   private hasSavedFiles(): boolean {
     if (!isBrowser) {return false;}
-    return localStorage.getItem(LS_WEBCONTAINER_FILES) !== null;
+    return localStorage.getItem(this.config.storageKeys.files) !== null;
   }
 
   // Load files from localStorage
@@ -57,7 +65,7 @@ export class WebContainerService {
     if (!isBrowser) {return null;}
 
     try {
-      const savedFiles = localStorage.getItem(LS_WEBCONTAINER_FILES);
+      const savedFiles = localStorage.getItem(this.config.storageKeys.files);
       if (savedFiles) {
         return JSON.parse(savedFiles) as FileSystemTree;
       }
@@ -89,8 +97,8 @@ export class WebContainerService {
       const files = await this.getFileSystemTree("/");
 
       // Save to localStorage
-      localStorage.setItem(LS_WEBCONTAINER_FILES, JSON.stringify(files));
-      localStorage.setItem(LS_WEBCONTAINER_LAST_MODIFIED, Date.now().toString());
+      localStorage.setItem(this.config.storageKeys.files, JSON.stringify(files));
+      localStorage.setItem(this.config.storageKeys.lastModified, Date.now().toString());
       return true;
     } catch (error) {
       console.error("Error saving files to localStorage:", error);
@@ -104,8 +112,8 @@ export class WebContainerService {
 
     try {
       // Clear localStorage
-      localStorage.removeItem(LS_WEBCONTAINER_FILES);
-      localStorage.removeItem(LS_WEBCONTAINER_LAST_MODIFIED);
+      localStorage.removeItem(this.config.storageKeys.files);
+      localStorage.removeItem(this.config.storageKeys.lastModified);
 
       // Restart the WebContainer with original files
       this.teardown();
@@ -260,9 +268,6 @@ export class WebContainerService {
       throw new Error("WebContainer not initialized");
     }
 
-    // Directories to exclude from saving
-    const excludedDirs = ["node_modules", ".git", "audio", ".github"];
-
     try {
       const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
       const result: FileEntry[] = [];
@@ -271,7 +276,7 @@ export class WebContainerService {
         const entryPath = path === "/" ? `/${entry.name}` : `${path}/${entry.name}`;
 
         // Skip excluded directories
-        if (entry.isDirectory() && excludedDirs.includes(entry.name)) {
+        if (entry.isDirectory() && this.config.excludedDirectories.includes(entry.name)) {
           continue;
         }
 
@@ -311,16 +316,13 @@ export class WebContainerService {
       throw new Error("WebContainer not initialized");
     }
 
-    // Directories to exclude from saving
-    const excludedDirs = ["node_modules", ".git", "audio", ".github", "dist", "build", ".cache"];
-
     try {
       const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
       const result: FileSystemTree = {};
 
       for (const entry of entries) {
         // Skip excluded directories
-        if (entry.isDirectory() && excludedDirs.includes(entry.name)) {
+        if (entry.isDirectory() && this.config.excludedDirectories.includes(entry.name)) {
           continue;
         }
 
