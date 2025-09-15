@@ -109,6 +109,7 @@ export class WebContainerService {
     }
   }
 
+  // Start the WebContainer
   public async start(forceUseOriginal = false): Promise<WebContainer> {
     try {
       this.updateStatus({ status: "Cargando archivos del proyecto...", isLoading: true });
@@ -194,6 +195,7 @@ export class WebContainerService {
     return await response.json() as FileSystemTree;
   }
 
+  // Register a callback for when the server is ready
   public onServerReady(callback: (url: string) => void): void {
     if (!this.instance) {
       console.error("WebContainer not initialized yet");
@@ -210,45 +212,7 @@ export class WebContainerService {
     });
   }
 
-  // New methods for file operations
-  public async readFile(path: string): Promise<string> {
-    if (!this.instance) {
-      throw new Error("WebContainer not initialized");
-    }
-
-    try {
-      const file = await this.instance.fs.readFile(path, "utf-8");
-      return file;
-    } catch (error) {
-      console.error(`Error reading file ${path}:`, error);
-      throw error;
-    }
-  }
-
-  public async writeFile(path: string, content: string): Promise<void> {
-    if (!this.instance) {
-      throw new Error("WebContainer not initialized");
-    }
-
-    try {
-      await this.instance.fs.writeFile(path, content);
-    } catch (error) {
-      console.error(`Error writing file ${path}:`, error);
-      throw error;
-    }
-  }
-
-  public isReady(): boolean {
-    return this.instance !== null;
-  }
-
-  public teardown(): void {
-    if (this.instance) {
-      this.instance.teardown();
-      this.instance = null;
-    }
-  }
-
+ // Recursively get the file tree for UI display (FileExplorer)
   public async getFileTree(path = "/"): Promise<FileEntry[]> {
     if (!this.instance) {
       throw new Error("WebContainer not initialized");
@@ -299,6 +263,49 @@ export class WebContainerService {
     }
   }
 
+  // Read a file's content
+  public async readFile(path: string): Promise<string> {
+    if (!this.instance) {
+      throw new Error("WebContainer not initialized");
+    }
+
+    try {
+      const file = await this.instance.fs.readFile(path, "utf-8");
+      return file;
+    } catch (error) {
+      console.error(`Error reading file ${path}:`, error);
+      throw error;
+    }
+  }
+
+  // Write content to a file
+  public async writeFile(path: string, content: string): Promise<void> {
+    if (!this.instance) {
+      throw new Error("WebContainer not initialized");
+    }
+
+    try {
+      await this.instance.fs.writeFile(path, content);
+    } catch (error) {
+      console.error(`Error writing file ${path}:`, error);
+      throw error;
+    }
+  }
+
+  // Check if WebContainer is ready
+  public isReady(): boolean {
+    return this.instance !== null;
+  }
+
+  // Teardown the WebContainer
+  public teardown(): void {
+    if (this.instance) {
+      this.instance.teardown();
+      this.instance = null;
+    }
+  }
+
+  // Recursively get the full file system tree for WebContainer API
   public async getFileSystemTree(path = "/"): Promise<FileSystemTree> {
     if (!this.instance) {
       throw new Error("WebContainer not initialized");
