@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import webContainerService from "../services/webContainerService";
 
 interface LessonProgress {
   [lessonId: string]: boolean;
@@ -16,7 +18,7 @@ interface Lesson {
 interface LessonStore {
   lessons: Lesson[];
   lessonStatus: LessonProgress;
-  selectedLesson: Lesson | null
+  selectedLesson: Lesson | null;
   initializeLessons: (lessons: Lesson[]) => void;
   setSelectedLesson: (lesson: Lesson) => void;
   markCompleted: (lessonId: string) => void;
@@ -24,38 +26,69 @@ interface LessonStore {
   resetProgress: () => void;
 }
 
-export const useLessonStore = create<LessonStore>((set) => ({
-  lessons: [],
-  lessonStatus: {},
-  selectedLesson: null,
+export const useLessonStore = create<LessonStore>()(
+  persist(
+    (set) => ({
+      lessons: [],
+      lessonStatus: {},
+      selectedLesson: null,
 
-  initializeLessons: (lessons) => 
-    set({
-      lessons: lessons,
-      lessonStatus: Object.fromEntries(lessons.map(id => [id, false])),
+      initializeLessons: (lessons) =>
+        set((state) => {
+          // Keep existing progress if available
+          const existingStatus = state.lessonStatus;
+          const newStatus = Object.fromEntries(
+            lessons.map(lesson => [
+              lesson.id,
+              // Use existing status if available, otherwise false
+              existingStatus[lesson.id] || false
+            ])
+          );
+
+          return {
+            lessons: lessons,
+            lessonStatus: newStatus,
+          };
+        }),
+
+      setSelectedLesson: (lesson) =>
+        set({ selectedLesson: lesson }),
+
+      markCompleted: async (lessonId) => {
+        // Save WebContainer state when a lesson is completed
+        await webContainerService.saveFilesToStorage();
+
+        set((state) => ({
+          lessonStatus: {
+            ...state.lessonStatus,
+            [lessonId]: true,
+          },
+        }));
+      },
+
+      markIncomplete: (lessonId) =>
+        set((state) => ({
+          lessonStatus: {
+            ...state.lessonStatus,
+            [lessonId]: false,
+          },
+        })),
+
+      resetProgress: async () => {
+        // Reset WebContainer to original state
+        await webContainerService.resetToOriginal();
+
+        set((state) => ({
+          lessonStatus: Object.fromEntries(state.lessons.map(lesson => [lesson.id, false])),
+        }));
+      },
     }),
-
-  setSelectedLesson: (lesson) => 
-    set({ selectedLesson: lesson }),
-
-  markCompleted: (lessonId) =>
-    set((state) => ({
-      lessonStatus: {
-        ...state.lessonStatus,
-        [lessonId]: true,
-      },
-    })),
-
-  markIncomplete: (lessonId) =>
-    set((state) => ({
-      lessonStatus: {
-        ...state.lessonStatus,
-        [lessonId]: false,
-      },
-    })),
-    
-  resetProgress: () => 
-    set((state) => ({ 
-      lessonStatus: Object.fromEntries(state.lessons.map(lesson => [lesson.id, false])),
-    })),
-}));
+    {
+      name: "accedemia-lesson-progress",
+      // Only persist these fields
+      partialize: (state) => ({
+        lessonStatus: state.lessonStatus,
+      }),
+    }
+  )
+);

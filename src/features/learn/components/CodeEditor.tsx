@@ -7,7 +7,9 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import webContainerService from "../services/webContainerService";
 import monacoService from "../services/monacoService";
 import FileExplorer from "./FileExplorer";
+import EvaluateButton from "./EvaluateButton";
 import { useSystemTheme } from "@/hooks/useSystemTheme";
+import { useLessonStore } from "../stores/useLessonStore";
 
 const DEFAULT_FILE_PATH = "src/components/assistance/Assistance.jsx";
 
@@ -18,7 +20,9 @@ export default function CodeEditor() {
   const [error, setError] = useState<string | null>(null);
   const [filePath, setFilePath] = useState<string>(DEFAULT_FILE_PATH);
   const [isExplorerVisible, setIsExplorerVisible] = useState<boolean>(true);
-  
+
+  const selectedLesson = useLessonStore(state => state.selectedLesson);
+
   // Load file content when component mounts or file path changes
   useEffect(() => {
     async function loadFileContent() {
@@ -105,11 +109,31 @@ export default function CodeEditor() {
       <div className={`
         flex h-10 items-center justify-between bg-base-100 p-2 text-sm
       `}>
-        <span className='font-semibold'>Editor de Código: <span className={`
-          font-medium
-        `}>{filePath.split("/").pop()}</span></span>
-        {isLoading && <span className="text-xs text-amber-300">Cargando...</span>}
-        {error && <span className="text-xs text-red-300">{error}</span>}
+
+        {/* File indicator */}
+        <div>
+          {isLoading ? (
+            <span className='font-semibold'>Editor de código</span>
+          ) : (
+            <span className='font-semibold'>
+              Editor de Código:{" "}
+              <span className="font-medium">
+                {filePath.split("/").pop()}
+              </span>
+            </span>
+          )}
+          {error && <span className="text-xs text-error">{error}</span>}
+        </div>
+
+        {/* Evaluation button (only show if a lesson is selected) */}
+        <div className="">
+          {selectedLesson && (
+            <EvaluateButton
+              lessonId={selectedLesson.id}
+              filePath={filePath}
+            />
+          )}
+        </div>
       </div>
 
       {/* Content area with dynamic sizing based on explorer visibility */}
@@ -148,12 +172,11 @@ export default function CodeEditor() {
         {/* File explorer with toggle */}
         <div className={`
           overflow-hidden border-t border-base-300 transition-all duration-300
-          ${
-          isExplorerVisible ? "h-6/10" : "h-10"
-        }
+          ${isExplorerVisible ? "h-6/10" : "h-10"
+          }
         `}>
           {/* Explorer header with toggle button */}
-          <div 
+          <div
             className={`
               sticky top-0 flex cursor-pointer items-center justify-between
               border-b border-base-300 bg-base-100 p-2
@@ -162,12 +185,12 @@ export default function CodeEditor() {
             onClick={() => setIsExplorerVisible(!isExplorerVisible)}
           >
             <span className="font-medium">Explorador de archivos</span>
-            {isExplorerVisible ? 
-              <ChevronDown size={16} className="text-base-content" /> : 
+            {isExplorerVisible ?
+              <ChevronDown size={16} className="text-base-content" /> :
               <ChevronUp size={16} className="text-base-content" />
             }
           </div>
-          
+
           {/* Explorer content */}
           <div className={`
             transition-all duration-300

@@ -1,5 +1,12 @@
 import { WebContainer, FileSystemTree } from "@webcontainer/api";
 
+// Constants for localStorage
+const LS_WEBCONTAINER_FILES = "accedemia_webcontainer_files";
+const LS_WEBCONTAINER_LAST_MODIFIED = "accedemia_webcontainer_last_modified";
+
+// Helper to check if code is running in browser
+const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
 export type WebContainerStatus = {
   status: string;
   error: string | null;
@@ -39,17 +46,130 @@ export class WebContainerService {
     this.statusCallback = callback;
   }
 
-  public async start(): Promise<WebContainer> {
+  // Check if there are saved files in localStorage
+  private hasSavedFiles(): boolean {
+    if (!isBrowser) return false;
+    return localStorage.getItem(LS_WEBCONTAINER_FILES) !== null;
+  }
+
+  // Load files from localStorage
+  private loadFilesFromStorage(): FileSystemTree | null {
+    if (!isBrowser) return null;
+
+    try {
+      const savedFiles = localStorage.getItem(LS_WEBCONTAINER_FILES);
+      if (savedFiles) {
+        return JSON.parse(savedFiles) as FileSystemTree;
+      }
+    } catch (error) {
+      console.error("Error loading files from localStorage:", error);
+    }
+    return null;
+  }
+
+  // Save the current file system to localStorage
+  public async saveFilesToStorage(): Promise<boolean> {
+    if (!isBrowser) return false;
+    if (!this.instance) {
+      console.error("Cannot save files: WebContainer not initialized");
+      return false;
+    }
+
+    try {
+      console.log("Starting to save WebContainer files to localStorage...");
+
+      // Get file system structure directly in the required format
+      const files = await this.getFileSystemTree("/");
+
+      // Save to localStorage
+      localStorage.setItem(LS_WEBCONTAINER_FILES, JSON.stringify(files));
+      localStorage.setItem(LS_WEBCONTAINER_LAST_MODIFIED, Date.now().toString());
+
+      console.log("Project files saved to localStorage");
+      return true;
+    } catch (error) {
+      console.error("Error saving files to localStorage:", error);
+      return false;
+    }
+  }
+
+  // Helper to process a file entry recursively
+  private async processFileEntry(entry: FileEntry, files: FileSystemTree, parentPath = ""): Promise<void> {
+    const fullPath = parentPath ? `${parentPath}/${entry.name}` : entry.name;
+
+    if (entry.type === "directory") {
+      // Create directory entry
+      files[fullPath] = {
+        directory: {}
+      };
+
+      // Process children recursively
+      if (entry.children) {
+        for (const child of entry.children) {
+          await this.processFileEntry(child, files, fullPath);
+        }
+      }
+    } else {
+      // Get file content
+      try {
+        const content = await this.readFile(entry.path);
+        files[fullPath] = {
+          file: {
+            contents: content
+          }
+        };
+      } catch (error) {
+        console.error(`Error reading file ${entry.path}:`, error);
+      }
+    }
+  }
+
+  // Reset to original project state
+  public async resetToOriginal(): Promise<boolean> {
+    if (!isBrowser) return false;
+
+    try {
+      // Clear localStorage
+      localStorage.removeItem(LS_WEBCONTAINER_FILES);
+      localStorage.removeItem(LS_WEBCONTAINER_LAST_MODIFIED);
+
+      // Restart the WebContainer with original files
+      this.teardown();
+      await this.start(true); // Force using original files
+
+      return true;
+    } catch (error) {
+      console.error("Error resetting to original files:", error);
+      return false;
+    }
+  }
+
+  public async start(forceUseOriginal = false): Promise<WebContainer> {
     try {
       this.updateStatus({ status: "Cargando archivos del proyecto...", isLoading: true });
-      
-      // Fetch the manifest file
-      const response = await fetch("/learning-project-manifest.json");
-      if (!response.ok) {
-        throw new Error("Failed to fetch project manifest");
-      }
 
-      const files = await response.json() as FileSystemTree;
+      let files: FileSystemTree;
+
+      // Check if we should use saved files or load the original
+      if (!forceUseOriginal && this.hasSavedFiles()) {
+        const savedFiles = this.loadFilesFromStorage();
+        if (savedFiles) {
+          this.updateStatus({ status: "Cargando archivos guardados...", isLoading: true });
+          files = savedFiles;
+          console.log("Loaded files")
+          console.log(files)
+        } else {
+          // Fetch the manifest file if saved files are invalid
+          this.updateStatus({ status: "Descargando proyecto original...", isLoading: true });
+          files = await this.fetchOriginalFiles();
+        }
+      } else {
+        // Fetch the original manifest
+        this.updateStatus({ status: "Descargando proyecto original...", isLoading: true });
+        files = await this.fetchOriginalFiles();
+        console.log("Fetched original files")
+        console.log(files)
+      }
 
       // Boot the WebContainer
       this.updateStatus({ status: "Iniciando WebContainer...", isLoading: true });
@@ -63,15 +183,6 @@ export class WebContainerService {
       // Install dependencies
       this.updateStatus({ status: "Instalando dependencias...", isLoading: true });
       const installProcess = await instance.spawn("npm", ["install"]);
-
-      // Stream install logs
-      // installProcess.output.pipeTo(
-      //   new WritableStream({
-      //     write: (data: string) => {
-      //       // console.log("npm install:", data);
-      //     },
-      //   }),
-      // );
 
       const installExitCode = await installProcess.exit;
 
@@ -87,15 +198,13 @@ export class WebContainerService {
       devProcess.output.pipeTo(
         new WritableStream({
           write: (data: string) => {
-            // console.log("dev server:", data);
-            // Update status with the server URL
             if (data.includes("Local:")) {
               const urlMatch = data.match(/Local:\s+(http:\/\/localhost:\d+)/);
               if (urlMatch && urlMatch[1]) {
-                this.updateStatus({ 
+                this.updateStatus({
                   status: `Servidor ejecutándose en ${urlMatch[1]}`,
                   serverUrl: urlMatch[1],
-                  isLoading: true, 
+                  isLoading: true,
                 });
               }
             }
@@ -106,13 +215,22 @@ export class WebContainerService {
       return instance;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Error al iniciar WebContainer";
-      this.updateStatus({ 
-        status: "Error", 
-        error: errorMessage, 
-        isLoading: false, 
+      this.updateStatus({
+        status: "Error",
+        error: errorMessage,
+        isLoading: false,
       });
       throw error;
     }
+  }
+
+  // Fetch original manifest file - now returns files directly
+  private async fetchOriginalFiles(): Promise<FileSystemTree> {
+    const response = await fetch("/learning-project-manifest.json");
+    if (!response.ok) {
+      throw new Error("Failed to fetch project manifest");
+    }
+    return await response.json() as FileSystemTree;
   }
 
   public onServerReady(callback: (url: string) => void): void {
@@ -122,8 +240,8 @@ export class WebContainerService {
     }
 
     this.instance.on("server-ready", (port: number, url: string) => {
-      this.updateStatus({ 
-        status: "Aplicación ejecutándose", 
+      this.updateStatus({
+        status: "Aplicación ejecutándose",
         isLoading: false,
         serverUrl: url,
       });
@@ -136,7 +254,7 @@ export class WebContainerService {
     if (!this.instance) {
       throw new Error("WebContainer not initialized");
     }
-    
+
     try {
       const file = await this.instance.fs.readFile(path, "utf-8");
       return file;
@@ -150,7 +268,7 @@ export class WebContainerService {
     if (!this.instance) {
       throw new Error("WebContainer not initialized");
     }
-    
+
     try {
       await this.instance.fs.writeFile(path, content);
     } catch (error) {
@@ -174,14 +292,23 @@ export class WebContainerService {
     if (!this.instance) {
       throw new Error("WebContainer not initialized");
     }
-    
+
+    // Directories to exclude from saving
+    const excludedDirs = ['node_modules', '.git', 'audio', '.github',];
+
     try {
       const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
       const result: FileEntry[] = [];
-      
+
       for (const entry of entries) {
         const entryPath = path === "/" ? `/${entry.name}` : `${path}/${entry.name}`;
-        
+
+        // Skip excluded directories
+        if (entry.isDirectory() && excludedDirs.includes(entry.name)) {
+          console.log(`Skipping excluded directory: ${entryPath}`);
+          continue;
+        }
+
         if (entry.isDirectory()) {
           const children = await this.getFileTree(entryPath);
           result.push({
@@ -198,7 +325,7 @@ export class WebContainerService {
           });
         }
       }
-      
+
       // Sort: directories first, then files, both alphabetically
       return result.sort((a, b) => {
         if (a.type !== b.type) {
@@ -206,6 +333,61 @@ export class WebContainerService {
         }
         return a.name.localeCompare(b.name);
       });
+    } catch (error) {
+      console.error(`Error reading directory ${path}:`, error);
+      throw error;
+    }
+  }
+
+  public async getFileSystemTree(path = "/"): Promise<FileSystemTree> {
+    if (!this.instance) {
+      throw new Error("WebContainer not initialized");
+    }
+
+    // Directories to exclude from saving
+    const excludedDirs = ['node_modules', '.git', 'audio', '.github', 'dist', 'build', '.cache'];
+
+    try {
+      const entries = await this.instance.fs.readdir(path, { withFileTypes: true });
+      const result: FileSystemTree = {};
+
+      for (const entry of entries) {
+        // Skip excluded directories
+        if (entry.isDirectory() && excludedDirs.includes(entry.name)) {
+          console.log(`Skipping excluded directory: ${path === "/" ? "/" : path + "/"}${entry.name}`);
+          continue;
+        }
+
+        // Calculate relative path
+        const entryPath = path === "/" ? `/${entry.name}` : `${path}/${entry.name}`;
+
+        if (entry.isDirectory()) {
+          // Recursively process directories
+          result[entry.name] = {
+            directory: await this.getFileSystemTree(entryPath)
+          };
+        } else {
+          // Read file contents
+          try {
+            const content = await this.readFile(entryPath);
+            result[entry.name] = {
+              file: {
+                contents: content
+              }
+            };
+          } catch (error) {
+            console.error(`Error reading file ${entryPath}:`, error);
+            // For files that can't be read, store as empty
+            result[entry.name] = {
+              file: {
+                contents: ''
+              }
+            };
+          }
+        }
+      }
+
+      return result;
     } catch (error) {
       console.error(`Error reading directory ${path}:`, error);
       throw error;
