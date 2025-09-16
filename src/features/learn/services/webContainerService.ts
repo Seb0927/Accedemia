@@ -19,13 +19,13 @@ const DEFAULT_CONFIG = {
   excludedDirectories: ["node_modules", ".git", "audio", ".github", "dist"],
   storageKeys: {
     files: "accedemia_webcontainer_files",
-    lastModified: "accedemia_webcontainer_last_modified"
+    lastModified: "accedemia_webcontainer_last_modified",
   },
   defaultStatus: {
     status: "Inactivo",
     error: null,
-    isLoading: false
-  }
+    isLoading: false,
+  },
 };
 
 type StatusCallback = (status: WebContainerStatus) => void;
