@@ -1,9 +1,10 @@
-// In EvaluateButton.tsx
 "use client";
 
-import { useState, useEffect } from "react";
-import { useLessonStore } from "../stores/useLessonStore";
-import webContainerService from "../services/webContainerService";
+import { useEffect } from "react";
+import { useLessonStore } from "@/features/learn/stores/useLessonStore";
+import { useCodeEvaluation } from "@/features/learn/hooks/useEvaluation";
+import { useProgressSaving } from "@/features/learn/hooks/useProgressSaving";
+import { useToast } from "@/features/learn/hooks/useToast";
 import { CheckCircle, XCircle, Loader2, Save } from "lucide-react";
 
 interface EvaluateButtonProps {
@@ -12,88 +13,47 @@ interface EvaluateButtonProps {
 }
 
 export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonProps) {
-  const [isEvaluating, setIsEvaluating] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; explanation: string; technique: string } | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [showToast, setShowToast] = useState(false);
-  
-  const markCompleted = useLessonStore(state => state.markCompleted);
   const selectedLesson = useLessonStore(state => state.selectedLesson);
   
-  // Show toast when there's a result or error
+  const { isEvaluating, result, error, evaluateCode, resetEvaluation } = useCodeEvaluation(filePath);
+  const { isSaving, saveError, saveProgress } = useProgressSaving();
+  const { showToast, showToastMessage, hideToast } = useToast();
+
+  // Handle combined state from both hooks
   useEffect(() => {
-    if (result || error) {
-      setShowToast(true);
-      
-      // Auto-dismiss toast after 10 seconds
-      const timer = setTimeout(() => {
-        setShowToast(false);
-      }, 10000);
-      
-      return () => clearTimeout(timer);
+    if (result || error || saveError) {
+      // Don't call showToast directly - use the provided function
+      if (result) {
+        showToastMessage(
+          result.success ? "success" : "error",
+          "Evaluation complete",
+        );
+      } else if (error || saveError) {
+        showToastMessage("error", error || saveError || "");
+      }
     }
-  }, [result, error]);
+  }, [result, error, saveError, showToastMessage]);
   
-  async function evaluateCode() {
+  const handleEvaluate = async () => {
     if (!selectedLesson) {return;}
     
-    setIsEvaluating(true);
-    setResult(null);
-    setError(null);
-    setShowToast(false);
+    // Reset previous states
+    resetEvaluation();
+    hideToast(); // Use hideToast instead of showToast(false)
     
-    try {
-      // Get the current code from the WebContainer
-      const studentCode = await webContainerService.readFile(filePath);
-      
-      // Call the evaluation API
-      const response = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          successCriterion: selectedLesson.id,
-          studentCode,
-        }),
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Error al evaluar el código");
-      }
-      
-      const evaluationResult = await response.json();
-      setResult(evaluationResult);
-      
-      // If successful, mark lesson as completed and save state
-      if (evaluationResult.success) {
-        setIsSaving(true);
-        try {
-          await markCompleted(lessonId);
-          // Add a small delay to show saving status
-          await new Promise(resolve => setTimeout(resolve, 500));
-        } catch (saveError) {
-          console.error("Error saving progress:", saveError);
-          setError("Tu solución es correcta, pero hubo un error al guardar tu progreso.");
-        } finally {
-          setIsSaving(false);
-        }
-      }
-      
-    } catch (err) {
-      console.error("Error evaluating code:", err);
-      setError(err instanceof Error ? err.message : "Error desconocido al evaluar");
-    } finally {
-      setIsEvaluating(false);
+    // Evaluate code
+    const evaluationResult = await evaluateCode(selectedLesson.id);
+    
+    // If successful, save progress
+    if (evaluationResult?.success) {
+      await saveProgress(lessonId);
     }
-  }
+  };
   
   return (
     <>
       <button 
-        onClick={evaluateCode}
+        onClick={handleEvaluate}
         disabled={isEvaluating || isSaving}
         className="btn btn-xs btn-primary"
       >
@@ -134,7 +94,7 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                     {result.technique && (
                       <span className="mt-1 text-xs font-medium">Técnica: {result.technique}</span>
                     )}
-                    {result.success && (
+                    {result.success && !saveError && (
                       <span className={`
                         mt-1 text-xs font-medium text-success-content
                       `}>
@@ -145,25 +105,25 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                 </div>
                 <button 
                   className="btn btn-circle btn-ghost btn-xs" 
-                  onClick={() => setShowToast(false)}
+                  onClick={hideToast}
                 >✕</button>
               </div>
             </div>
           )}
           
-          {error && (
+          {(error || saveError) && (
             <div className="alert alert-error shadow-lg">
               <div className="flex w-full justify-between">
                 <div className="flex items-start gap-2">
                   <XCircle className="size-6 shrink-0 stroke-current" />
                   <div className="flex flex-col">
                     <span className="font-bold">Error</span>
-                    <span className="text-sm">{error}</span>
+                    <span className="text-sm">{error || saveError}</span>
                   </div>
                 </div>
                 <button 
                   className="btn btn-circle btn-ghost btn-xs" 
-                  onClick={() => setShowToast(false)}
+                  onClick={hideToast}
                 >✕</button>
               </div>
             </div>
