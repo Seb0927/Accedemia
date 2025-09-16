@@ -20,10 +20,8 @@ export function useCodeEvaluation(filePath: string) {
     setError(null);
     
     try {
-      // Get the current code from the WebContainer
       const studentCode = await webContainerService.readFile(filePath);
       
-      // Call the evaluation API
       const response = await fetch("/api/evaluate", {
         method: "POST",
         headers: {
