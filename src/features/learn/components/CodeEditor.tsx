@@ -126,7 +126,7 @@ export default function CodeEditor() {
         </div>
 
         {/* Evaluation button (only show if a lesson is selected) */}
-        <div className="">
+        <div>
           {selectedLesson && (
             <EvaluateButton
               lessonId={selectedLesson.id}
