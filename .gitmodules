@@ -1,6 +1,6 @@
-[submodule "CompraFacilInaccessible"]
-	path = CompraFacilInaccessible
-	url = https://github.com/Seb0927/CompraFacilInaccessible.git
-[submodule "AccedemiaCurriculum"]
-	path = AccedemiaCurriculum
+[submodule "public/curriculum"]
+	path = public/curriculum
 	url = https://github.com/Seb0927/AccedemiaCurriculum.git
+[submodule "public/learning-project"]
+	path = public/learning-project
+	url = https://github.com/Seb0927/CompraFacilInaccessible.git
