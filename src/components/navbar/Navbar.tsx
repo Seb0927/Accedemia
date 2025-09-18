@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import NavMenu from "@/components/Navbar/NavMenu";
+import NavMenu from "@/components/navbar/NavMenu";
 import Logo from "@/components/Logo";
 
 function Navbar() {
