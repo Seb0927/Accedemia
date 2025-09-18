@@ -19,10 +19,8 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
   const { isSaving, saveError, saveProgress } = useProgressSaving();
   const { showToast, showToastMessage, hideToast } = useToast();
 
-  // Handle combined state from both hooks
   useEffect(() => {
     if (result || error || saveError) {
-      // Don't call showToast directly - use the provided function
       if (result) {
         showToastMessage(
           result.success ? "success" : "error",
@@ -37,14 +35,11 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
   const handleEvaluate = async () => {
     if (!selectedLesson) {return;}
     
-    // Reset previous states
     resetEvaluation();
-    hideToast(); // Use hideToast instead of showToast(false)
+    hideToast();
     
-    // Evaluate code
     const evaluationResult = await evaluateCode(selectedLesson.id);
     
-    // If successful, save progress
     if (evaluationResult?.success) {
       await saveProgress(lessonId);
     }
