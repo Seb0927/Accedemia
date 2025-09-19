@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLessonStore } from "../stores/use-lesson-store";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 
 export function useProgressSaving() {
   const [isSaving, setIsSaving] = useState(false);

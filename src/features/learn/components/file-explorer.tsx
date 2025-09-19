@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Folder, File, ChevronDown, ChevronRight } from "lucide-react";
-import webContainerService, { FileEntry } from "../services/web-container-service";
+import webContainerService, { FileEntry } from "@/features/learn/services/web-container-service";
 
 interface FileExplorerProps {
   onSelectFile: (path: string) => void;
@@ -59,8 +59,8 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
         <div key={item.path} style={{ paddingLeft: `${level * 16}px` }}>
           <div 
             className={`
-              flex cursor-pointer items-center rounded px-2 py-1
               hover:bg-base-100
+              flex cursor-pointer items-center rounded px-2 py-1
               ${
               isSelected ? "bg-base-200" : ""
             }
@@ -112,14 +112,14 @@ export default function FileExplorer({ onSelectFile, currentFilePath }: FileExpl
 
   if (error) {
     return (
-      <div className="p-4 text-center text-error">
+      <div className="text-error p-4 text-center">
         <p>{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-auto bg-base-100 text-sm">
+    <div className="bg-base-100 h-full overflow-auto text-sm">
       <div className="p-2">{renderFileTree(fileTree)}</div>
     </div>
   );

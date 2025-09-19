@@ -44,8 +44,8 @@ export default function WebContainerComponent() {
       <div className="relative z-0 flex-1">
         {isLoading && (
           <div className={`
-            bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center
-            bg-base-100
+            bg-opacity-80 bg-base-100 absolute inset-0 z-10 flex items-center
+            justify-center
           `}>
             <div className="p-4 text-center">
               <div className="loading loading-lg loading-spinner"></div>
@@ -55,11 +55,11 @@ export default function WebContainerComponent() {
         )}
         {error && (
           <div className={`
-            bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center
-            bg-base-100
+            bg-opacity-80 bg-base-100 absolute inset-0 z-10 flex items-center
+            justify-center
           `}>
             <div className="p-4 text-center">
-              <div className="mb-2 text-xl text-error">⚠️ Ha ocurrido un error: </div>
+              <div className="text-error mb-2 text-xl">⚠️ Ha ocurrido un error: </div>
               <p>{error}</p>
             </div>
           </div>

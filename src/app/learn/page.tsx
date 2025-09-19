@@ -12,13 +12,13 @@ export default function Page() {
       <div className={`
         flex max-h-[calc(100vh-100px)] w-full grow flex-row gap-2 p-4
       `}>
-        <Card className="h-full max-w-1/3 flex-1 bg-base-100">
+        <Card className="bg-base-100 h-full max-w-1/3 flex-1">
           <LessonContent />
         </Card>
-        <Card className="h-full max-w-1/3 flex-1 bg-base-100">
+        <Card className="bg-base-100 h-full max-w-1/3 flex-1">
           <CodeEditor />
         </Card>
-        <Card className="h-full max-w-1/3 flex-1 bg-base-100">
+        <Card className="bg-base-100 h-full max-w-1/3 flex-1">
           <WebContainer />
         </Card>
       </div>

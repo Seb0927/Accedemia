@@ -1,6 +1,6 @@
 "use client";
 
-import { useLessonStore } from "../stores/use-lesson-store";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 import useSWR from "swr";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";

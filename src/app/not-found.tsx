@@ -13,10 +13,10 @@ function NotFound() {
         
         {/* Error Message */}
         <div className="mt-4">
-          <h1 className="mb-4 text-4xl font-bold text-base-content">
+          <h1 className="text-base-content mb-4 text-4xl font-bold">
             Página No Encontrada
           </h1>
-          <p className="mb-8 text-lg text-base-content/70">
+          <p className="text-base-content/70 mb-8 text-lg">
             Lo siento, la página que buscas no existe o ha sido movida.
           </p>
         </div>
@@ -26,7 +26,7 @@ function NotFound() {
           flex flex-col items-center justify-center gap-4
           sm:flex-row
         `}>
-          <Link href="/" className="btn gap-2 btn-primary">
+          <Link href="/" className="btn btn-primary gap-2">
             <Home size={20} />
             Ir al Inicio
           </Link>

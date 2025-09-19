@@ -91,7 +91,7 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                     )}
                     {result.success && !saveError && (
                       <span className={`
-                        mt-1 text-xs font-medium text-success-content
+                        text-success-content mt-1 text-xs font-medium
                       `}>
                         Progreso guardado correctamente
                       </span>

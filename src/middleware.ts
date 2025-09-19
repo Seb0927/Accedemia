@@ -1,25 +1,24 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // Get the pathname from the URL
-  const { pathname } = request.nextUrl
+  const { pathname } = request.nextUrl;
   
   // Check if the request is for the root path
-  if (pathname === '/') {
+  if (pathname === "/") {
     // Create a new URL for the redirect destination
-    const url = request.nextUrl.clone()
-    url.pathname = '/learn'
+    const url = request.nextUrl.clone();
+    url.pathname = "/learn";
     
     // Return a redirect response
-    return NextResponse.redirect(url)
+    return NextResponse.redirect(url);
   }
   
   // Return the original response for all other paths
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
 // Specify which paths this middleware should run on
 export const config = {
-  matcher: ['/'],
-}
+  matcher: ["/"],
+};

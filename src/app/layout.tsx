@@ -45,7 +45,7 @@ export default function RootLayout({
         antialiased
       `}>
         <div className={`
-          flex h-screen min-h-screen w-screen flex-col bg-base-200
+          bg-base-200 flex h-screen min-h-screen w-screen flex-col
         `}>
           <Navbar />
           <div className="max-h-[calc(100vh-56px)] grow">

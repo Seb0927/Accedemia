@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import webContainerService from "../services/web-container-service";
-import monacoService from "../services/monaco-service";
-import FileExplorer from "./file-explorer";
-import EvaluateButton from "./evaluate-button";
+import webContainerService from "@/features/learn/services/web-container-service";
+import monacoService from "@/features/learn/services/monaco-service";
+import FileExplorer from "@/features/learn/components/file-explorer";
+import EvaluateButton from "@/features/learn/components/evaluate-button";
 import { useSystemTheme } from "@/hooks/use-system-theme";
-import { useLessonStore } from "../stores/use-lesson-store";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 
 const DEFAULT_FILE_PATH = "src/components/assistance/Assistance.jsx";
 
@@ -107,7 +107,7 @@ export default function CodeEditor() {
     <div className="flex size-full flex-col overflow-hidden rounded-xl">
       {/* Header */}
       <div className={`
-        flex h-10 items-center justify-between bg-base-100 p-2 text-sm
+        bg-base-100 flex h-10 items-center justify-between p-2 text-sm
       `}>
 
         {/* File indicator */}
@@ -122,7 +122,7 @@ export default function CodeEditor() {
               </span>
             </span>
           )}
-          {error && <span className="text-xs text-error">{error}</span>}
+          {error && <span className="text-error text-xs">{error}</span>}
         </div>
 
         {/* Evaluation button (only show if a lesson is selected) */}
@@ -145,8 +145,8 @@ export default function CodeEditor() {
         `}>
           {isLoading && (
             <div className={`
-              bg-opacity-70 absolute inset-0 z-10 flex items-center
-              justify-center bg-base-100
+              bg-opacity-70 bg-base-100 absolute inset-0 z-10 flex items-center
+              justify-center
             `}>
               <div className="loading loading-md loading-spinner"></div>
             </div>
@@ -171,15 +171,15 @@ export default function CodeEditor() {
 
         {/* File explorer with toggle */}
         <div className={`
-          overflow-hidden border-t border-base-300 transition-all duration-300
+          border-base-300 overflow-hidden border-t transition-all duration-300
           ${isExplorerVisible ? "h-6/10" : "h-10"
           }
         `}>
           {/* Explorer header with toggle button */}
           <div
             className={`
-              sticky top-0 flex cursor-pointer items-center justify-between
-              border-b border-base-300 bg-base-100 p-2
+              border-base-300 bg-base-100 sticky top-0 flex cursor-pointer
+              items-center justify-between border-b p-2
               hover:bg-base-200
             `}
             onClick={() => setIsExplorerVisible(!isExplorerVisible)}

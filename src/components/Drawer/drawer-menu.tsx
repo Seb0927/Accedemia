@@ -5,7 +5,7 @@ interface DrawerMenuInterface {
 
 function DrawerMenu({ title, children }: DrawerMenuInterface) {
   return (
-    <div className="collapse-arrow collapse border border-base-300 bg-base-100">
+    <div className="collapse-arrow border-base-300 bg-base-100 collapse border">
       <input type="checkbox" />
       <h2 className="collapse-title border-base-300 text-lg font-semibold">
         {title}

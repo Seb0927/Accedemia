@@ -4,10 +4,10 @@ import Logo from "@/components/logo";
 
 function Navbar() {
   return (
-    <div className="z-1 navbar min-h-14 bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 z-1 min-h-14 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn px-2 btn-ghost">
+          <div tabIndex={0} role="button" className="btn btn-ghost px-2">
             <Menu />
           </div>
           <NavMenu />
