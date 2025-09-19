@@ -41,19 +41,32 @@ const eslintConfig = [
       "object-curly-spacing": ["error", "always"],
       "array-bracket-spacing": ["error", "never"],
 
+      // Import rules - prevent relative parent imports (../)
+      "no-restricted-imports": [
+        "error",
+        {
+          "patterns": [
+            {
+              "group": ["../*"],
+              "message": "Usage of relative parent imports is not allowed. " +
+                "Use @/ imports instead."
+            }
+          ]
+        }
+      ],
+
       // Better Tailwind CSS rules
       "better-tailwindcss/enforce-consistent-class-order": "warn",
       "better-tailwindcss/enforce-consistent-line-wrapping": "warn",
       "better-tailwindcss/enforce-shorthand-classes": "warn",
       "better-tailwindcss/no-duplicate-classes": "error",
       "better-tailwindcss/no-unnecessary-whitespace": "warn",
-      // This rule is disabled for DaisyUI
-      "better-tailwindcss/no-unregistered-classes": "off",
+      "better-tailwindcss/no-unregistered-classes": "off", // Rule disabled for DaisyUI
       "better-tailwindcss/no-conflicting-classes": "error",
 
-      // React/Next.js specific (since you're using Next.js)
-      "react/prop-types": "off", // TypeScript handles this
-      "react/react-in-jsx-scope": "off", // Not needed in Next.js
+      // React/Next.js specific
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
       "react-hooks/exhaustive-deps": "warn",
     },
   },
