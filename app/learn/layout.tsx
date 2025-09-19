@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import LessonDrawer from "@/features/learn/components/LessonDrawer";
+import LessonDrawer from "@/features/learn/components/lesson-drawer";
 
 interface LayoutProps {
   children: ReactNode;

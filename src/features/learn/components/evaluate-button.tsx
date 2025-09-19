@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLessonStore } from "@/features/learn/stores/useLessonStore";
-import { useCodeEvaluation } from "@/features/learn/hooks/useEvaluation";
-import { useProgressSaving } from "@/features/learn/hooks/useProgressSaving";
-import { useToast } from "@/features/learn/hooks/useToast";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
+import { useCodeEvaluation } from "@/features/learn/hooks/use-evaluation";
+import { useProgressSaving } from "@/features/learn/hooks/use-progress-saving";
+import { useToast } from "@/features/learn/hooks/use-toast";
 import { CheckCircle, XCircle, Loader2, Save } from "lucide-react";
 
 interface EvaluateButtonProps {

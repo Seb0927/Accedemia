@@ -1,6 +1,6 @@
 "use client";
 
-import { useLessonStore } from "@/features/learn/stores/useLessonStore";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 
 function Breadcrumbs() {
   const selectedLesson = useLessonStore((state) => state.selectedLesson);

@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
-import NavMenu from "@/components/navbar/NavMenu";
-import Logo from "@/components/Logo";
+import NavMenu from "@/components/navbar/nav-menu";
+import Logo from "@/components/logo";
 
 function Navbar() {
   return (

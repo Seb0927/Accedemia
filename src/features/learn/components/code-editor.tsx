@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import webContainerService from "../services/webContainerService";
-import monacoService from "../services/monacoService";
-import FileExplorer from "./FileExplorer";
-import EvaluateButton from "./EvaluateButton";
-import { useSystemTheme } from "@/hooks/useSystemTheme";
-import { useLessonStore } from "../stores/useLessonStore";
+import webContainerService from "../services/web-container-service";
+import monacoService from "../services/monaco-service";
+import FileExplorer from "./file-explorer";
+import EvaluateButton from "./evaluate-button";
+import { useSystemTheme } from "@/hooks/use-system-theme";
+import { useLessonStore } from "../stores/use-lesson-store";
 
 const DEFAULT_FILE_PATH = "src/components/assistance/Assistance.jsx";
 

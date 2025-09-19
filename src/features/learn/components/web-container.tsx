@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import webContainerService, { WebContainerStatus } from "@/features/learn/services/webContainerService";
+import webContainerService, { WebContainerStatus } from "@/features/learn/services/web-container-service";
 
 export default function WebContainerComponent() {
   const iframeRef = useRef<HTMLIFrameElement>(null);

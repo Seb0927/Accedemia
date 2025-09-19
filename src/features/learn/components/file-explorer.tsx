@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Folder, File, ChevronDown, ChevronRight } from "lucide-react";
-import webContainerService, { FileEntry } from "../services/webContainerService";
+import webContainerService, { FileEntry } from "../services/web-container-service";
 
 interface FileExplorerProps {
   onSelectFile: (path: string) => void;

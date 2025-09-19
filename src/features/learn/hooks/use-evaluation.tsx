@@ -1,5 +1,5 @@
 import { useState } from "react";
-import webContainerService from "../services/webContainerService";
+import webContainerService from "../services/web-container-service";
 
 type EvaluationResult = { 
   success: boolean; 

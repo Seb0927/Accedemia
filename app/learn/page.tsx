@@ -1,8 +1,8 @@
-import Card from "@/components/Card";
-import LessonContent from "@/features/learn/components/LessonContent";
-import Navigator from "@/features/learn/components/Navigator";
-import WebContainer from "@/features/learn/components/WebContainer";
-import CodeEditor from "@/features/learn/components/CodeEditor";
+import Card from "@/components/card";
+import LessonContent from "@/features/learn/components/lesson-content";
+import Navigator from "@/features/learn/components/navigator";
+import WebContainer from "@/features/learn/components/web-container";
+import CodeEditor from "@/features/learn/components/code-editor";
 
 export default function Page() {
   return (

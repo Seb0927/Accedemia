@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLessonStore } from "@/features/learn/stores/useLessonStore";
-import DrawerMenu from "@/components/Drawer/DrawerMenu";
-import DrawerItem from "@/components/Drawer/DrawerItem";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
+import DrawerMenu from "@/components/Drawer/drawer-menu";
+import DrawerItem from "@/components/Drawer/drawer-item";
 import { Lesson } from "@/types/curriculum";
 
 export default function LessonDrawer() {

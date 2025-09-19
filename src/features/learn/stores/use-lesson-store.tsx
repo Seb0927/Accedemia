@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import webContainerService from "../services/webContainerService";
+import webContainerService from "../services/web-container-service";
 
 interface LessonProgress {
   [lessonId: string]: boolean;
