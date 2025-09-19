@@ -1,11 +1,7 @@
+import { EvaluationResult } from "@/types/evaluation";
 import { useState } from "react";
-import webContainerService from "../services/web-container-service";
-
-type EvaluationResult = { 
-  success: boolean; 
-  explanation: string; 
-  technique: string 
-};
+import webContainerService from "@/features/learn/services/web-container-service";
+import { evaluateCode as apiEvaluateCode } from "../api/evaluate/evaluate";
 
 export function useCodeEvaluation(filePath: string) {
   const [isEvaluating, setIsEvaluating] = useState(false);
@@ -13,32 +9,21 @@ export function useCodeEvaluation(filePath: string) {
   const [error, setError] = useState<string | null>(null);
 
   const evaluateCode = async (lessonId: string) => {
-    if (!lessonId) {return null;}
+    if (!lessonId) {
+      return null;
+    }
     
     setIsEvaluating(true);
     setResult(null);
     setError(null);
     
     try {
+      // Read the student code from the WebContainer
       const studentCode = await webContainerService.readFile(filePath);
       
-      const response = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          successCriterion: lessonId,
-          studentCode,
-        }),
-      });
+      // Use the API utility function to evaluate the code
+      const evaluationResult = await apiEvaluateCode(lessonId, studentCode);
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Error al evaluar el código");
-      }
-      
-      const evaluationResult = await response.json();
       setResult(evaluationResult);
       return evaluationResult;
       
@@ -52,14 +37,16 @@ export function useCodeEvaluation(filePath: string) {
     }
   };
 
+  const resetEvaluation = () => {
+    setResult(null);
+    setError(null);
+  };
+
   return {
     isEvaluating,
     result,
     error,
     evaluateCode,
-    resetEvaluation: () => {
-      setResult(null);
-      setError(null);
-    },
+    resetEvaluation,
   };
 }
