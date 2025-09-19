@@ -1,4 +1,4 @@
-import { Lesson } from "@/types/curriculum"
+import { Lesson } from "@/types/curriculum";
 
 export async function getAllLessons(): Promise<Lesson[]> {
   try {
