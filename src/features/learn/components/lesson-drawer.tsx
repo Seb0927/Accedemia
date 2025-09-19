@@ -2,14 +2,36 @@
 
 import { useEffect } from "react";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
-import DrawerMenu from "@/components/Drawer/drawer-menu";
-import DrawerItem from "@/components/Drawer/drawer-item";
+import DrawerMenu from "@/components/drawer/drawer-menu";
+import DrawerItem from "@/components/drawer/drawer-item";
 import { Lesson } from "@/types/curriculum";
+import { getAllLessons } from "@/features/learn/api/curriculum/get-lessons";
+import { getLessonFromUrl } from "@/utils/get-lesson-url";
 
 export default function LessonDrawer() {
   const lessons = useLessonStore((state) => state.lessons);
   const initializeLessons = useLessonStore((state) => state.initializeLessons);
   const setSelectedLesson = useLessonStore((state) => state.setSelectedLesson);
+
+  useEffect(() => {
+    async function loadInitialData() {
+      const fetchedLessons = await getAllLessons();
+      initializeLessons(fetchedLessons);
+
+      const lessonFromUrl = await getLessonFromUrl();
+      if (lessonFromUrl) {
+        setSelectedLesson(lessonFromUrl);
+      } else {
+        // Handle case when lesson ID is invalid but exists in URL
+        const url = new URL(window.location.href);
+        if (url.searchParams.get("lesson")) {
+          window.location.href = "/not-found";
+        }
+      }
+    }
+
+    loadInitialData();
+  }, [initializeLessons, setSelectedLesson]);
 
   const onClickDrawerItem = (lesson: Lesson) => {
     // Close drawer
@@ -18,7 +40,6 @@ export default function LessonDrawer() {
       drawer.checked = false;
     }
 
-    // Set selected lesson
     setSelectedLesson(lesson);
 
     // Set query parameters without refreshing the page
@@ -26,31 +47,6 @@ export default function LessonDrawer() {
     url.searchParams.set("lesson", lesson.id);
     window.history.pushState({}, "", url.toString());
   };
-
-  useEffect(() => {
-    async function fetchLessons() {
-      const response = await fetch("/api/curriculum");
-      const lessons: Lesson[] = await response.json();
-      initializeLessons(lessons);
-    }
-
-    async function fetchInitialLesson() {
-      const url = new URL(window.location.href);
-      const lessonId = url.searchParams.get("lesson");
-      if (lessonId) {
-        const response = await fetch(`/api/curriculum/${lessonId}`);
-        if (response.ok) {
-          const lesson: Lesson = await response.json();
-          setSelectedLesson(lesson);
-        } else {
-          window.location.href = "/not-found";
-        }
-      }
-    }
-
-    fetchLessons();
-    fetchInitialLesson();
-  }, [initializeLessons, setSelectedLesson]);
 
   return (
     <div className="drawer-side">
