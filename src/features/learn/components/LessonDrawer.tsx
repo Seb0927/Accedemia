@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useLessonStore } from "@/features/learn/stores/useLessonStore";
-import DrawerMenu from "@/features/learn/components/Drawer/DrawerMenu";
-import DrawerItem from "@/features/learn/components/Drawer/DrawerItem";
+import DrawerMenu from "@/components/Drawer/DrawerMenu";
+import DrawerItem from "@/components/Drawer/DrawerItem";
 import { Lesson } from "@/types/curriculum";
 
 export default function LessonDrawer() {
