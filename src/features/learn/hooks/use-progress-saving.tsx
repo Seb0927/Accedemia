@@ -5,14 +5,19 @@ export function useProgressSaving() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   
-  const markCompleted = useLessonStore(state => state.markCompleted);
+  const setLessonCorrect = useLessonStore(state => state.setLessonCorrect);
+  const setLessonIncorrect = useLessonStore(state => state.setLessonIncorrect);
 
-  const saveProgress = async (lessonId: string) => {
+  const saveProgress = async (lessonId: string, feedbackMessage: string, isCorrect: boolean) => {
     setIsSaving(true);
     setSaveError(null);
     
     try {
-      await markCompleted(lessonId);
+      if (isCorrect) {
+        await setLessonCorrect(lessonId, feedbackMessage);
+      } else {
+        setLessonIncorrect(lessonId, feedbackMessage);
+      }
       // Small delay to show saving status
       await new Promise(resolve => setTimeout(resolve, 500));
       return true;

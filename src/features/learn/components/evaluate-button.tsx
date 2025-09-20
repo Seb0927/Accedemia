@@ -14,7 +14,7 @@ interface EvaluateButtonProps {
 
 export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonProps) {
   const selectedLesson = useLessonStore(state => state.selectedLesson);
-  
+
   const { isEvaluating, result, error, evaluateCode, resetEvaluation } = useCodeEvaluation(filePath);
   const { isSaving, saveError, saveProgress } = useProgressSaving();
   const { showToast, showToastMessage, hideToast } = useToast();
@@ -31,23 +31,28 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
       }
     }
   }, [result, error, saveError, showToastMessage]);
-  
+
   const handleEvaluate = async () => {
-    if (!selectedLesson) {return;}
-    
+    if (!selectedLesson) { return; }
+
     resetEvaluation();
     hideToast();
-    
+
     const evaluationResult = await evaluateCode(selectedLesson.id);
-    
-    if (evaluationResult?.success) {
-      await saveProgress(lessonId);
+
+    if (evaluationResult) {
+      // Save progress with the evaluation result and feedback
+      await saveProgress(
+        lessonId,
+        evaluationResult.explanation,
+        evaluationResult.success,
+      );
     }
   };
-  
+
   return (
     <>
-      <button 
+      <button
         onClick={handleEvaluate}
         disabled={isEvaluating || isSaving}
         className="btn btn-xs btn-primary"
@@ -66,7 +71,7 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
           "Evaluar"
         )}
       </button>
-      
+
       {/* Toast notifications */}
       {showToast && (
         <div className="toast-end toast-bottom toast z-50 max-w-2xl">
@@ -95,14 +100,14 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                     )}
                   </div>
                 </div>
-                <button 
-                  className="btn btn-circle btn-ghost btn-xs" 
+                <button
+                  className="btn btn-circle btn-ghost btn-xs"
                   onClick={hideToast}
                 >✕</button>
               </div>
             </div>
           )}
-          
+
           {(error || saveError) && (
             <div className="alert alert-error shadow-lg">
               <div className="flex w-full justify-between">
@@ -113,8 +118,8 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                     <span className="text-sm">{error || saveError}</span>
                   </div>
                 </div>
-                <button 
-                  className="btn btn-circle btn-ghost btn-xs" 
+                <button
+                  className="btn btn-circle btn-ghost btn-xs"
                   onClick={hideToast}
                 >✕</button>
               </div>

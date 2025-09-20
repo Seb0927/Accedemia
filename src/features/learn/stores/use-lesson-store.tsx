@@ -2,8 +2,13 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import webContainerService from "@/features/learn/services/webcontainer-service";
 
+type LessonProgressState =
+  | { status: "not_started" }
+  | { status: "incorrect", feedbackMessage: string }
+  | { status: "correct", feedbackMessage: string };
+
 interface LessonProgress {
-  [lessonId: string]: boolean;
+  [lessonId: string]: LessonProgressState;
 }
 
 interface Lesson {
@@ -21,8 +26,9 @@ interface LessonStore {
   selectedLesson: Lesson | null;
   initializeLessons: (lessons: Lesson[]) => void;
   setSelectedLesson: (lesson: Lesson) => void;
-  markCompleted: (lessonId: string) => void;
-  markIncomplete: (lessonId: string) => void;
+  setLessonCorrect: (lessonId: string, feedbackMessage: string) => void;
+  setLessonIncorrect: (lessonId: string, feedbackMessage: string) => void;
+  setLessonNotStarted: (lessonId: string) => void;
   resetProgress: () => void;
 }
 
@@ -40,8 +46,8 @@ export const useLessonStore = create<LessonStore>()(
           const newStatus = Object.fromEntries(
             lessons.map(lesson => [
               lesson.id,
-              // Use existing status if available, otherwise false
-              existingStatus[lesson.id] || false,
+              // Use existing status if available, otherwise not_started
+              existingStatus[lesson.id] || { status: "not_started" },
             ]),
           );
 
@@ -54,23 +60,31 @@ export const useLessonStore = create<LessonStore>()(
       setSelectedLesson: (lesson) =>
         set({ selectedLesson: lesson }),
 
-      markCompleted: async (lessonId) => {
+      setLessonCorrect: async (lessonId, feedbackMessage) => {
         // Save WebContainer state when a lesson is completed
         await webContainerService.saveFilesToStorage();
 
         set((state) => ({
           lessonStatus: {
             ...state.lessonStatus,
-            [lessonId]: true,
+            [lessonId]: { status: "correct", feedbackMessage },
           },
         }));
       },
 
-      markIncomplete: (lessonId) =>
+      setLessonIncorrect: (lessonId, feedbackMessage) =>
         set((state) => ({
           lessonStatus: {
             ...state.lessonStatus,
-            [lessonId]: false,
+            [lessonId]: { status: "incorrect", feedbackMessage },
+          },
+        })),
+
+      setLessonNotStarted: (lessonId) =>
+        set((state) => ({
+          lessonStatus: {
+            ...state.lessonStatus,
+            [lessonId]: { status: "not_started" },
           },
         })),
 
@@ -79,7 +93,9 @@ export const useLessonStore = create<LessonStore>()(
         await webContainerService.resetToOriginal();
 
         set((state) => ({
-          lessonStatus: Object.fromEntries(state.lessons.map(lesson => [lesson.id, false])),
+          lessonStatus: Object.fromEntries(
+            state.lessons.map(lesson => [lesson.id, { status: "not_started" }]),
+          ),
         }));
       },
     }),
