@@ -46,7 +46,7 @@ function LessonContent() {
   }
 
   return (
-    <div className="relative size-full overflow-auto">
+    <div className="relative z-0 size-full overflow-auto">
       {loading && (
         <div className={`
           bg-opacity-80 bg-base-100 absolute inset-0 z-10 flex items-center
