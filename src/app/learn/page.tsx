@@ -1,7 +1,7 @@
 import Card from "@/components/card";
 import LessonContent from "@/features/learn/components/lesson-content";
 import Navigator from "@/features/learn/components/navigator";
-import WebContainer from "@/features/learn/components/web-container";
+import WebContainer from "@/features/learn/components/webcontainer";
 import CodeEditor from "@/features/learn/components/code-editor";
 
 export default function Page() {

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import webContainerService from "@/features/learn/services/web-container-service";
+import webContainerService from "@/features/learn/services/webcontainer-service";
 import monacoService from "@/features/learn/services/monaco-service";
 import FileExplorer from "@/features/learn/components/file-explorer";
 import EvaluateButton from "@/features/learn/components/evaluate-button";

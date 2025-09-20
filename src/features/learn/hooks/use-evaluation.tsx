@@ -1,6 +1,6 @@
 import { EvaluationResult } from "@/types/evaluation";
 import { useState } from "react";
-import webContainerService from "@/features/learn/services/web-container-service";
+import webContainerService from "@/features/learn/services/webcontainer-service";
 import { evaluateCode as apiEvaluateCode } from "@/features/learn/api/evaluate/evaluate";
 
 export function useCodeEvaluation(filePath: string) {
