@@ -86,9 +86,6 @@ export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonPro
                   <div className="flex flex-col">
                     <span className="font-bold">{result.success ? "¡Correcto!" : "Incorrecto"}</span>
                     <span className="text-sm">{result.explanation}</span>
-                    {result.technique && (
-                      <span className="mt-1 text-xs font-medium">Técnica: {result.technique}</span>
-                    )}
                     {result.success && !saveError && (
                       <span className={`
                         text-success-content mt-1 text-xs font-medium
