@@ -1,6 +1,10 @@
+"use client";
+
 import { CircleCheckBig, CircleX } from "lucide-react";
+import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 
 interface LessonFeedbackOverlayProps {
+  lessonId: string;
   state: "correct" | "incorrect";
   feedbackMessage: string;
 }
@@ -10,7 +14,9 @@ const titles = {
   incorrect: "Inténtalo de nuevo",
 };
 
-function LessonFeedbackOverlay({ state, feedbackMessage }: LessonFeedbackOverlayProps) {
+function LessonFeedbackOverlay({ lessonId, state, feedbackMessage }: LessonFeedbackOverlayProps) {
+  const setLessonNotStarted = useLessonStore((store) => store.setLessonNotStarted);
+
   const bgColor = state === "correct" ? "bg-success" : "bg-error";
   const bgColorOpaque = state === "correct" ? "bg-success/20" : "bg-error/20";
   const icon = state === "correct" ? <CircleCheckBig /> : <CircleX />;
@@ -35,10 +41,21 @@ function LessonFeedbackOverlay({ state, feedbackMessage }: LessonFeedbackOverlay
                 {icon}
               </div>
             </div>
-            <h2 className="card-title justify-center text-xl">{titles[state]}</h2>
-            <p className="text-base-content/70">
-              {feedbackMessage}
-            </p>
+            <div className="mb-2">
+              <h2 className="card-title justify-center text-xl">{titles[state]}</h2>
+              <p className="text-base-content/70">
+                {feedbackMessage}
+              </p>
+            </div>
+            {state === "incorrect" &&
+              <div className="mt-2 flex justify-center gap-3">
+                <button onClick={() => { setLessonNotStarted(lessonId); }} className={`
+                  btn btn-primary
+                `}>
+                  Reintentar
+                </button>
+              </div>
+            }
           </div>
         </div>
       </div>

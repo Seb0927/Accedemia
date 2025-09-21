@@ -25,6 +25,7 @@ function LessonContent() {
     <>
       {isFeedbackVisible &&
         <LessonFeedbackOverlay
+          lessonId={selectedLesson.id}
           state={selectedLessonStatus.status}
           feedbackMessage={selectedLessonStatus.feedbackMessage}
         />
