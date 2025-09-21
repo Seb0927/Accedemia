@@ -1,6 +1,13 @@
 import { isBrowser } from "@/utils/environment";
 import { WebContainer, FileSystemTree } from "@webcontainer/api";
 
+/*
+If someone is reading this:
+Yes, I do know I've built a God Class, but in the other hand, I only have 31 
+days since this commit.
+I’m not asking you to forgive me, only to understand me. 😭😭😭
+*/
+
 export type WebContainerStatus = {
   status: string;
   error: string | null;
