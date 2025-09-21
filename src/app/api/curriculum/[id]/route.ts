@@ -7,7 +7,6 @@ import {
   extractWcagComponents, 
   getWcagData, 
 } from "@/lib/wcag";
-import { Lesson } from "@/types/curriculum";
 
 export async function GET(_: Request, props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
