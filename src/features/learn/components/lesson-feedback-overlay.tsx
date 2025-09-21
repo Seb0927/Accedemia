@@ -2,6 +2,7 @@
 
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
+import ReactMarkdown from "./react-markdown";
 
 interface LessonFeedbackOverlayProps {
   lessonId: string;
@@ -43,9 +44,7 @@ function LessonFeedbackOverlay({ lessonId, state, feedbackMessage }: LessonFeedb
             </div>
             <div className="mb-2">
               <h2 className="card-title justify-center text-xl">{titles[state]}</h2>
-              <p className="text-base-content/70">
-                {feedbackMessage}
-              </p>
+              <ReactMarkdown content={feedbackMessage} />
             </div>
             {state === "incorrect" &&
               <div className="mt-2 flex justify-center gap-3">
