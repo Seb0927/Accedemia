@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import webContainerService from "@/features/learn/services/webcontainer-service";
+import { getLessonById } from "@/features/learn/api/curriculum/get-lesson";
 
 type LessonProgressState =
   | { status: "not_started" }
@@ -58,8 +59,15 @@ export const useLessonStore = create<LessonStore>()(
           };
         }),
 
-      setSelectedLesson: (lesson) =>
-        set({ selectedLesson: lesson }),
+      setSelectedLesson: async (lesson) => {
+        try {
+          const fetchedLesson = await getLessonById(lesson.id);
+          set({ selectedLesson: fetchedLesson });
+        } catch (err) {
+          console.error("Error fetching lesson:", err);
+          throw err;
+        }
+      },
 
       setLessonCorrect: async (lessonId, feedbackMessage) => {
         // Save WebContainer state when a lesson is completed
