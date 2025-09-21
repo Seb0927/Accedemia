@@ -3,7 +3,7 @@
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 import { useCodeEvaluation } from "@/features/learn/hooks/use-evaluation";
 import { useProgressSaving } from "@/features/learn/hooks/use-progress-saving";
-import { CheckCircle, XCircle, Loader2, Save } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 
 interface EvaluateButtonProps {
   lessonId: string;
@@ -13,8 +13,8 @@ interface EvaluateButtonProps {
 export default function EvaluateButton({ lessonId, filePath }: EvaluateButtonProps) {
   const selectedLesson = useLessonStore(state => state.selectedLesson);
 
-  const { isEvaluating, result, error, evaluateCode, resetEvaluation } = useCodeEvaluation(filePath);
-  const { isSaving, saveError, saveProgress } = useProgressSaving();
+  const { isEvaluating, evaluateCode, resetEvaluation } = useCodeEvaluation(filePath);
+  const { isSaving, saveProgress } = useProgressSaving();
 
   const handleEvaluate = async () => {
     if (!selectedLesson) { return; }
