@@ -45,8 +45,9 @@ export default function CodeEditor() {
       }
     }
 
+    setFilePath(selectedLesson ? selectedLesson.file_path : DEFAULT_FILE_PATH);
     loadFileContent();
-  }, [filePath]);
+  }, [filePath, selectedLesson]);
 
   // Handle file selection from the FileExplorer
   const handleFileSelect = (path: string) => {
