@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
-import { loadWcagRuleMap, extractWcagComponents, lookupWcagInfo } from "@/lib/wcag/utils";
+import { 
+  loadWcagRuleMap, 
+  loadWcagFileMap, 
+  extractWcagComponents, 
+  getWcagData, 
+} from "@/lib/wcag";
 import { Lesson } from "@/types/curriculum";
 
 export async function GET(_: Request, props: { params: Promise<{ id: string }> }) {
@@ -16,16 +21,23 @@ export async function GET(_: Request, props: { params: Promise<{ id: string }> }
 
   // Add WCAG information to the response
   const ruleMap = loadWcagRuleMap();
+  const fileMap = loadWcagFileMap();
   const { principleNum, guidelineNum, criteriaNum } = extractWcagComponents(params.id);
-  const { principle, guideline, successCriteria } = lookupWcagInfo(
-    ruleMap, principleNum, guidelineNum, criteriaNum,
+  const wcagData = getWcagData(
+    ruleMap, 
+    fileMap, 
+    principleNum, 
+    guidelineNum, 
+    criteriaNum,
   );
 
   return NextResponse.json({ 
     id: params.id, 
     content,
-    principle,
-    guideline,
-    success_criteria: successCriteria,
+    title: wcagData.title,
+    principle: wcagData.principle,
+    guideline: wcagData.guideline,
+    success_criteria: wcagData.successCriteria,
+    file_path: wcagData.filePath,
   } as Lesson);
 }

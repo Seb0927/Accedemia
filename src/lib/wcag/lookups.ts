@@ -1,19 +1,6 @@
-import { readFileSync } from "fs";
-import { join } from "path";
-import { WcagRuleMap } from "./types";
+import { WcagRuleMap, WcagFileMap } from "./types";
 
-// Extract WCAG components from an ID (e.g., "wcag-1-2-3")
-export function extractWcagComponents(id: string): { principleNum: string; guidelineNum: string; criteriaNum: string } {
-  const parts = id.split("-");
-  return {
-    principleNum: parts[1] || "",
-    guidelineNum: parts[2] || "",
-    criteriaNum: parts[3] || "",
-  };
-}
-
-// Look up WCAG information from the rule map
-export function lookupWcagInfo(
+export function lookupWcagRuleInfo(
   ruleMap: WcagRuleMap, 
   principleNum: string, 
   guidelineNum: string, 
@@ -32,8 +19,17 @@ export function lookupWcagInfo(
   }
 }
 
-// Load the WCAG rule map
-export function loadWcagRuleMap(): WcagRuleMap {
-  const ruleMapPath = join(process.cwd(), "public", "curriculum", "wcag_rule_map.json");
-  return JSON.parse(readFileSync(ruleMapPath, "utf-8"));
+// Single responsibility: Look up file path
+export function lookupWcagFilePath(
+  fileMap: WcagFileMap,
+  principleNum: string,
+  guidelineNum: string,
+  criteriaNum: string,
+): string {
+  try {
+    return fileMap[principleNum]?.[guidelineNum]?.[criteriaNum]?.file || "/";
+  } catch (error) {
+    console.error("Error finding file path:", error);
+    return "/";
+  }
 }

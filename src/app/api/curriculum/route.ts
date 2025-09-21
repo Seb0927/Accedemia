@@ -1,35 +1,51 @@
 import { NextResponse } from "next/server";
 import { readdirSync } from "fs";
 import { join } from "path";
-import { loadWcagRuleMap, extractWcagComponents, lookupWcagInfo } from "@/lib/wcag/utils";
+import { 
+  loadWcagRuleMap, 
+  extractWcagComponents, 
+  getWcagRuleData,
+} from "@/lib/wcag";
 import { Lesson } from "@/types/curriculum";
 
 export async function GET() {
-  const dir = join(process.cwd(), "public", "curriculum", "lessons");
-  const ruleMap = loadWcagRuleMap();
-  
-  const files = readdirSync(dir);
-  const lessons = files
-    .filter(file => 
-      file.endsWith(".md") && 
-      !["wcag-2-1-1.md", "wcag-2-5-4.md", "template.md"].includes(file),
-    )
-    .map((file) => {
-      const id = file.replace(".md", "");
-      
-      const { principleNum, guidelineNum, criteriaNum } = extractWcagComponents(id);
-      const { principle, guideline, successCriteria, title } = lookupWcagInfo(
-        ruleMap, principleNum, guidelineNum, criteriaNum,
-      );
-      
-      return {
-        id,
-        title,
-        principle,
-        guideline,
-        success_criteria: successCriteria,
-      } as Lesson;
-    });
+  try {
+    const dir = join(process.cwd(), "public", "curriculum", "lessons");
+    const ruleMap = loadWcagRuleMap();
+    
+    const files = readdirSync(dir);
+    const lessons = files
+      .filter(file => 
+        file.endsWith(".md") && 
+        !["wcag-2-1-1.md", "wcag-2-5-4.md", "template.md"].includes(file),
+      )
+      .map((file): Lesson => {
+        const id = file.replace(".md", "");
+        
+        const { principleNum, guidelineNum, criteriaNum } = extractWcagComponents(id);
+        const wcagData = getWcagRuleData(
+          ruleMap, 
+          principleNum, 
+          guidelineNum, 
+          criteriaNum,
+        );
+        
+        return {
+          id,
+          title: wcagData.title,
+          principle: wcagData.principle,
+          guideline: wcagData.guideline,
+          success_criteria: wcagData.successCriteria,
+        } as Lesson;
+      });
 
-  return NextResponse.json(lessons);
+    return NextResponse.json(lessons);
+    
+  } catch (error) {
+    console.error("Error loading curriculum:", error);
+    return NextResponse.json(
+      { error: "Failed to load curriculum" }, 
+      { status: 500 },
+    );
+  }
 }

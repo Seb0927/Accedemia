@@ -5,4 +5,5 @@ export interface Lesson {
   principle: string;
   guideline: string;
   success_criteria: string;
+  file_path: string;
 }
