@@ -39,5 +39,5 @@ export async function GET(_: Request, props: { params: Promise<{ id: string }> }
     guideline: wcagData.guideline,
     success_criteria: wcagData.successCriteria,
     file_path: wcagData.filePath,
-  } as Lesson);
+  });
 }

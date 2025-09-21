@@ -36,7 +36,7 @@ export async function GET() {
           principle: wcagData.principle,
           guideline: wcagData.guideline,
           success_criteria: wcagData.successCriteria,
-        } as Lesson;
+        };
       });
 
     return NextResponse.json(lessons);

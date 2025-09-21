@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { Lesson, DetailedLesson } from "@/types/curriculum";
 import webContainerService from "@/features/learn/services/webcontainer-service";
 import { getLessonById } from "@/features/learn/api/curriculum/get-lesson";
 
@@ -12,20 +13,10 @@ interface LessonProgress {
   [lessonId: string]: LessonProgressState;
 }
 
-interface Lesson {
-  id: string,
-  title: string,
-  content: string | null,
-  principle: string,
-  guideline: string,
-  success_criteria: string,
-  file_path: string,
-}
-
 interface LessonStore {
   lessons: Lesson[];
   lessonStatus: LessonProgress;
-  selectedLesson: Lesson | null;
+  selectedLesson: DetailedLesson | null;
   initializeLessons: (lessons: Lesson[]) => void;
   setSelectedLesson: (lesson: Lesson) => void;
   setLessonCorrect: (lessonId: string, feedbackMessage: string) => void;

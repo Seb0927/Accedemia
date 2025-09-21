@@ -1,6 +1,6 @@
-import { Lesson } from "@/types/curriculum";
+import { DetailedLesson } from "@/types/curriculum";
 
-export async function getLessonById(lessonId: string): Promise<Lesson | null> {
+export async function getLessonById(lessonId: string): Promise<DetailedLesson | null> {
   try {
     const response = await fetch(`/api/curriculum/${lessonId}`);
     
