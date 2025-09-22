@@ -22,6 +22,9 @@ export default function CodeEditor() {
   const [isExplorerVisible, setIsExplorerVisible] = useState<boolean>(true);
 
   const selectedLesson = useLessonStore(state => state.selectedLesson);
+  const lessonStatus = useLessonStore(state => state.lessonStatus)
+
+  const isLessonCorrect = selectedLesson ? lessonStatus[selectedLesson.id].status === 'correct' : false;
 
   // Load file content when component mounts or file path changes
   useEffect(() => {
@@ -126,9 +129,9 @@ export default function CodeEditor() {
           {error && <span className="text-error text-xs">{error}</span>}
         </div>
 
-        {/* Evaluation button (only show if a lesson is selected) */}
+        {/* Evaluation button */}
         <div>
-          {selectedLesson && (
+          {selectedLesson && isLessonCorrect === false && (
             <EvaluateButton
               lessonId={selectedLesson.id}
               filePath={filePath}
