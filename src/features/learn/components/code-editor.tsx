@@ -22,9 +22,9 @@ export default function CodeEditor() {
   const [isExplorerVisible, setIsExplorerVisible] = useState<boolean>(true);
 
   const selectedLesson = useLessonStore(state => state.selectedLesson);
-  const lessonStatus = useLessonStore(state => state.lessonStatus)
+  const lessonStatus = useLessonStore(state => state.lessonStatus);
 
-  const isLessonCorrect = selectedLesson ? lessonStatus[selectedLesson.id].status === 'correct' : false;
+  const isLessonCorrect = selectedLesson ? lessonStatus[selectedLesson.id].status === "correct" : false;
 
   // Load file content when component mounts or file path changes
   useEffect(() => {
