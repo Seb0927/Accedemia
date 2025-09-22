@@ -56,7 +56,7 @@ export default function LessonDrawer() {
       <div className={`
         menu bg-base-200 text-base-content flex min-h-full w-88 gap-2 p-4
         `}>
-        <div className="card bg-base-100 shadow-sm mb-2">
+        <div className="card bg-base-100 shadow-sm mb-2 border-base-300 border-1 ">
           <div className="card-body text-center py-4">
             <h2 className="text-2xl font-bold w-full text-center">Lecciones</h2>
             <p className="text-xs opacity-80">
