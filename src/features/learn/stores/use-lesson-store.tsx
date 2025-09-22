@@ -3,11 +3,12 @@ import { persist } from "zustand/middleware";
 import { Lesson, DetailedLesson } from "@/types/curriculum";
 import webContainerService from "@/features/learn/services/webcontainer-service";
 import { getLessonById } from "@/features/learn/api/curriculum/get-lesson";
+import { LessonStatus } from "@/features/learn/types/lesson";
 
 type LessonProgressState =
-  | { status: "not_started" }
-  | { status: "incorrect", feedbackMessage: string }
-  | { status: "correct", feedbackMessage: string };
+  | { status: Extract<LessonStatus, "not_started"> }
+  | { status: Extract<LessonStatus, "incorrect">, feedbackMessage: string }
+  | { status: Extract<LessonStatus, "correct">, feedbackMessage: string };
 
 interface LessonProgress {
   [lessonId: string]: LessonProgressState;

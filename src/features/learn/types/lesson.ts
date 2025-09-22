@@ -1,0 +1,1 @@
+export type LessonStatus = "not_started" | "incorrect" | "correct";

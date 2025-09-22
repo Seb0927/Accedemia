@@ -4,12 +4,14 @@ import { useEffect } from "react";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 import DrawerMenu from "@/components/drawer/drawer-menu";
 import DrawerItem from "@/components/drawer/drawer-item";
+import LessonBadge from "@/features/learn/components/lesson-badge";
 import { Lesson } from "@/types/curriculum";
 import { getAllLessons } from "@/features/learn/api/curriculum/get-lessons";
 import { getLessonFromUrl } from "@/utils/get-lesson-url";
 
 export default function LessonDrawer() {
   const lessons = useLessonStore((state) => state.lessons);
+  const lessonStatus = useLessonStore((state) => state.lessonStatus);
   const initializeLessons = useLessonStore((state) => state.initializeLessons);
   const setSelectedLesson = useLessonStore((state) => state.setSelectedLesson);
 
@@ -63,8 +65,11 @@ export default function LessonDrawer() {
                   key={lesson.id}
                   id={lesson.id.slice(5, 10).replace(/-/g, ".")}
                   title={lesson.title}
-                  onClick={() => onClickDrawerItem(lesson)}
-                />
+                  onClick={() => onClickDrawerItem(lesson)}>
+                  <div className="ml-2">
+                    <LessonBadge state={lessonStatus[lesson.id].status} />
+                  </div>
+                </DrawerItem>
               ))}
           </ul>
         </DrawerMenu>
@@ -77,8 +82,11 @@ export default function LessonDrawer() {
                   key={lesson.id}
                   id={lesson.id.slice(5, 10).replace(/-/g, ".")}
                   title={lesson.title}
-                  onClick={() => onClickDrawerItem(lesson)}
-                />
+                  onClick={() => onClickDrawerItem(lesson)}>
+                  <div className="ml-2">
+                    <LessonBadge state={lessonStatus[lesson.id].status} />
+                  </div>
+                </DrawerItem>
               ))}
           </ul>
         </DrawerMenu>
@@ -91,8 +99,11 @@ export default function LessonDrawer() {
                   key={lesson.id}
                   id={lesson.id.slice(5, 10).replace(/-/g, ".")}
                   title={lesson.title}
-                  onClick={() => onClickDrawerItem(lesson)}
-                />
+                  onClick={() => onClickDrawerItem(lesson)}>
+                  <div className="ml-2">
+                    <LessonBadge state={lessonStatus[lesson.id].status} />
+                  </div>
+                </DrawerItem>
               ))}
           </ul>
         </DrawerMenu>
@@ -105,8 +116,11 @@ export default function LessonDrawer() {
                   key={lesson.id}
                   id={lesson.id.slice(5, 10).replace(/-/g, ".")}
                   title={lesson.title}
-                  onClick={() => onClickDrawerItem(lesson)}
-                />
+                  onClick={() => onClickDrawerItem(lesson)}>
+                  <div className="ml-2">
+                    <LessonBadge state={lessonStatus[lesson.id].status} />
+                  </div>
+                </DrawerItem>
               ))}
           </ul>
         </DrawerMenu>
