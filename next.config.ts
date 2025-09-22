@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   async headers() {
     return [
       {
@@ -18,6 +19,13 @@ const nextConfig = {
       },
     ];
   },
+  webpack: (config) => {
+    config.module?.rules?.push({
+      test: /\.md$/,
+      type: 'asset/source',
+    });
+    return config;
+  },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
