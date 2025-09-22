@@ -55,7 +55,15 @@ export default function LessonDrawer() {
       <label className="drawer-overlay" htmlFor="lessons-drawer" aria-label="Cerrar barra lateral" />
       <div className={`
         menu bg-base-200 text-base-content flex min-h-full w-88 gap-2 p-4
-      `}>
+        `}>
+        <div className="card bg-base-100 shadow-sm mb-2">
+          <div className="card-body text-center py-4">
+            <h2 className="text-2xl font-bold w-full text-center">Lecciones</h2>
+            <p className="text-xs opacity-80">
+              Selecciona una criterio de éxito para iniciar la lección para iniciar la lección
+            </p>
+          </div>
+        </div>
         <DrawerMenu title={"Principio 1: Perceptible"}>
           <ul>
             {lessons
