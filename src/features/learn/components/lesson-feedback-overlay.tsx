@@ -2,11 +2,13 @@
 
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
+import { LessonStatus } from "@/features/learn/types/lesson";
+
 import ReactMarkdown from "./react-markdown";
 
 interface LessonFeedbackOverlayProps {
   lessonId: string;
-  state: "correct" | "incorrect";
+  state: Extract<LessonStatus, "correct" | "incorrect">;
   feedbackMessage: string;
 }
 
