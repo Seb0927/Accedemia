@@ -60,7 +60,7 @@ export default function LessonDrawer() {
           <div className="card-body text-center py-4">
             <h2 className="text-2xl font-bold w-full text-center">Lecciones</h2>
             <p className="text-xs opacity-80">
-              Selecciona una criterio de éxito para iniciar la lección para iniciar la lección
+              Selecciona una criterio de éxito para iniciar la lección.
             </p>
           </div>
         </div>
