@@ -3,6 +3,7 @@
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 import ReactMarkdown from "@/features/learn/components/react-markdown";
 import LessonFeedbackOverlay from "@/features/learn/components/lesson-feedback-overlay";
+import welcomeContent from "@/assets/markdown/welcome.md";
 import "highlight.js/styles/github.css";
 
 function LessonContent() {
@@ -15,8 +16,10 @@ function LessonContent() {
 
   if (!selectedLesson?.id) {
     return (
-      <div className='p-8'>
-        ¡Selecciona una lección por favor!
+      <div className="relative z-0 size-full overflow-auto rounded-lg">
+        <div className="p-8">
+          <ReactMarkdown content={welcomeContent} />
+        </div>
       </div>
     );
   }
@@ -33,7 +36,6 @@ function LessonContent() {
 
 
       <div className="relative z-0 size-full overflow-auto rounded-lg">
-
         {selectedLesson && (
           <div
             inert
