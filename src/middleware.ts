@@ -25,6 +25,6 @@ export const config = {
      * Match all request paths except for the ones starting with:
      * - .swa (Azure Static Web Apps)
      */
-    '/((?!_next/static|_next/image|.swa/health|favicon.ico).*)',
+    "/((?!_next/static|_next/image|.swa/health|favicon.ico).*)",
   ],
 };
