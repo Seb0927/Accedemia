@@ -20,16 +20,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      {
-        source: '/((?!.swa).*)',
-        destination: '/learn',
-        permanent: false,
-      },
-    ];
-  },
-// ...existing code...
   webpack: (config) => {
     config.module?.rules?.push({
       test: /\.md$/,
