@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/((?!.swa).*)',
+        source: '/',
         destination: '/learn',
         permanent: false,
       },
