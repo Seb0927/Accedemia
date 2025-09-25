@@ -99,7 +99,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Evaluation error:", error);
     return NextResponse.json(
-      { error: "Failed to evaluate code", message: error },
+      { error: "Failed to evaluate code" },
       { status: 500 },
     );
   }
