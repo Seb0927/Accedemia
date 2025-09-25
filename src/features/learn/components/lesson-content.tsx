@@ -16,7 +16,7 @@ function LessonContent() {
 
   if (!selectedLesson?.id) {
     return (
-      <div className="relative z-0 size-full overflow-auto rounded-lg">
+      <div className="relative z-0 rounded-lg">
         <div className="p-8">
           <ReactMarkdown content={welcomeContent} />
         </div>
@@ -35,7 +35,7 @@ function LessonContent() {
       }
 
 
-      <div className="relative z-0 size-full overflow-auto rounded-lg">
+      <div className="relative z-0 rounded-lg">
         {selectedLesson && (
           <div
             inert
