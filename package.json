@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "generate-manifiest": "ts-node scripts/generate-manifest.js"
+    "generate-manifiest": "ts-node scripts/generate-manifest.ts"
   },
   "dependencies": {
     "@google/genai": "^1.19.0",
