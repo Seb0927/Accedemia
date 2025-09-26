@@ -25,6 +25,5 @@ export default function IOSWrapper({ fallback, children }: IOSWrapperProps) {
     );
   }
 
-  // return isIOS ? fallback : children;
-  return isIOS ? children : fallback;
+  return isIOS ? fallback : children;
 }
