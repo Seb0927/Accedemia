@@ -1,10 +1,10 @@
 import Card from "@/components/card";
-import LessonContent from "@/features/learn/components/lesson-content";
-import Navigator from "@/features/learn/components/navigator";
-import WebContainer from "@/features/learn/components/webcontainer";
-import IOSWrapper from "@/features/learn/components/ios-wrapper";
-import IOSFallback from "@/features/learn/components/ios-fallback";
-import CodeEditor from "@/features/learn/components/code-editor";
+import LessonContent from "@/features/learn/components/lesson/lesson-content";
+import Navigator from "@/features/learn/components/navigator/navigator";
+import WebContainer from "@/features/learn/components/webcontainer/webcontainer";
+import IOSWrapper from "@/components/wrapper/ios-wrapper";
+import IOSFallback from "@/components/fallback/ios-fallback";
+import CodeEditor from "@/features/learn/components/code-editor/code-editor";
 
 export default function Page() {
   return (

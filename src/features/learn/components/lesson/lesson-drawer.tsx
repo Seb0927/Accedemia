@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 import DrawerMenu from "@/components/drawer/drawer-menu";
 import DrawerItem from "@/components/drawer/drawer-item";
-import LessonBadge from "@/features/learn/components/lesson-badge";
+import LessonBadge from "@/features/learn/components/lesson/lesson-badge";
 import { Lesson } from "@/types/curriculum";
 import { getAllLessons } from "@/features/learn/api/curriculum/get-lessons";
 import { getLessonFromUrl } from "@/utils/get-lesson-url";

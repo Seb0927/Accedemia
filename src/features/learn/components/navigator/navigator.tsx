@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import Breadcrumbs from "@/features/learn/components/breadcrumbs";
+import Breadcrumbs from "@/features/learn/components/navigator/breadcrumbs";
 
 function Navigator() {
   return (

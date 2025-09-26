@@ -1,8 +1,8 @@
 "use client";
 
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
-import ReactMarkdown from "@/features/learn/components/react-markdown";
-import LessonFeedbackOverlay from "@/features/learn/components/lesson-feedback-overlay";
+import ReactMarkdown from "@/components/react-markdown";
+import LessonFeedbackOverlay from "@/features/learn/components/lesson/lesson-feedback-overlay";
 import welcomeContent from "@/assets/markdown/welcome.md";
 import "highlight.js/styles/github.css";
 

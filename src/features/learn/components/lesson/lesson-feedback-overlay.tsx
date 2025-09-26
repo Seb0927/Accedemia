@@ -4,7 +4,7 @@ import { CircleCheckBig, CircleX } from "lucide-react";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 import { LessonStatus } from "@/features/learn/types/lesson";
 
-import ReactMarkdown from "./react-markdown";
+import ReactMarkdown from "@/components/react-markdown";
 
 interface LessonFeedbackOverlayProps {
   lessonId: string;

@@ -6,8 +6,8 @@ import * as monaco from "monaco-editor";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import webContainerService from "@/features/learn/services/webcontainer-service";
 import monacoService from "@/features/learn/services/monaco-service";
-import FileExplorer from "@/features/learn/components/file-explorer";
-import EvaluateButton from "@/features/learn/components/evaluate-button";
+import FileExplorer from "@/features/learn/components/code-editor/file-explorer";
+import EvaluateButton from "@/features/learn/components/code-editor/evaluate-button";
 import { useSystemTheme } from "@/hooks/use-system-theme";
 import { useLessonStore } from "@/features/learn/stores/use-lesson-store";
 
