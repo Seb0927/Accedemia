@@ -34,7 +34,7 @@ function LessonFeedbackOverlay({ lessonId, state, feedbackMessage }: LessonFeedb
 
       {/* Feedback card*/}
       <div className={"absolute z-1 flex size-full items-center justify-center"}>
-        <div className="card bg-base-100 w-96 shadow-xl">
+        <div className="card bg-base-100 w-96 p-4 shadow-xl">
           <div className="card-body text-center">
             <div className="mb-4 flex justify-center">
               <div className={`
