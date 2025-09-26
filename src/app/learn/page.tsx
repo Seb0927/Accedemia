@@ -7,16 +7,28 @@ import CodeEditor from "@/features/learn/components/code-editor";
 export default function Page() {
   return (
     <>
-      <div className="flex h-full min-h-0 w-full flex-col">
+      <div className="flex size-full min-h-0 flex-col">
         <Navigator />
-        <div className="flex flex-1 min-h-0 flex-row gap-2 p-4">
-          <Card className="bg-base-100 h-full max-w-1/3 flex-1">
+        <div className={`
+          flex min-h-0 flex-1 flex-col gap-2 p-4
+          lg:flex-row
+        `}>
+          <Card className={`
+            bg-base-100 h-96 overflow-auto
+            lg:h-full lg:max-w-1/3 lg:flex-1
+          `}>
             <LessonContent />
           </Card>
-          <Card className="bg-base-100 h-full max-w-1/3 flex-1">
+          <Card className={`
+            bg-base-100 h-96
+            lg:h-full lg:max-w-1/3 lg:flex-1
+          `}>
             <CodeEditor />
           </Card>
-          <Card className="bg-base-100 h-full max-w-1/3 flex-1">
+          <Card className={`
+            bg-base-100 h-96 min-h-96
+            lg:h-full lg:max-w-1/3 lg:flex-1
+          `}>
             <WebContainer />
           </Card>
         </div>

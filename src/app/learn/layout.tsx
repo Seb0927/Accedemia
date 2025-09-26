@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="drawer flex flex-1 flex-col min-h-0 w-full">
+    <div className="drawer flex min-h-0 w-full flex-1 flex-col">
       <input id="lessons-drawer" className="drawer-toggle" type="checkbox" />
 
       {/* Main Content */}
