@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <>
       <div className="flex size-full items-center justify-center p-4">
-        <Card className="max-w-2xl max-h-10/12 overflow-auto bg-base-100 p-8">
+        <Card className="bg-base-100 max-h-10/12 max-w-2xl overflow-auto p-8">
           <h1 className="mb-6 w-full text-center text-3xl font-bold">Sobre Accedemia</h1>
           
           <div className="mb-8 flex items-center justify-center">
@@ -44,7 +44,7 @@ export default function Page() {
               <p className="text-base-content/80">
                 Las pautas WCAG, aunque esenciales para garantizar la accesibilidad web, presentan desafíos importantes para quienes buscan aprenderlas:
               </p>
-              <ul className="my-3 list-disc pl-6 text-base-content/80">
+              <ul className="text-base-content/80 my-3 list-disc pl-6">
                 <li>Son extensas y técnicamente complejas</li>
                 <li>Están redactadas en un lenguaje técnico y legal</li>
                 <li>Requieren interpretación y contextualización</li>
@@ -63,7 +63,7 @@ export default function Page() {
               <p className="text-base-content/80">
                 Accedemia utiliza la inteligencia artificial para crear un entorno de aprendizaje personalizado que:
               </p>
-              <ol className="my-3 list-decimal pl-6 text-base-content/80">
+              <ol className="text-base-content/80 my-3 list-decimal pl-6">
                 <li>Simplifica conceptos complejos con explicaciones adaptadas al nivel del usuario</li>
                 <li>Proporciona ejemplos prácticos y contextualizados</li>
                 <li>Ofrece retroalimentación inmediata sobre implementaciones</li>
@@ -79,7 +79,7 @@ export default function Page() {
               <p className="text-base-content/80">
                 Nuestro proyecto se fundamenta en una metodología que incluye:
               </p>
-              <ul className="my-3 list-disc pl-6 text-base-content/80">
+              <ul className="text-base-content/80 my-3 list-disc pl-6">
                 <li>Análisis de las barreras actuales para el aprendizaje de WCAG</li>
                 <li>Diseño centrado en el usuario para la plataforma de aprendizaje</li>
                 <li>Implementación de LLMs para personalización de contenidos</li>
@@ -95,7 +95,7 @@ export default function Page() {
               <p className="text-base-content/80">
                 A través de Accedemia, aspiramos a:
               </p>
-              <ul className="my-3 list-disc pl-6 text-base-content/80">
+              <ul className="text-base-content/80 my-3 list-disc pl-6">
                 <li>Reducir significativamente el tiempo necesario para comprender e implementar las pautas WCAG</li>
                 <li>Aumentar la adopción de prácticas de accesibilidad web</li>
                 <li>Contribuir al conocimiento sobre metodologías efectivas para el aprendizaje asistido por IA</li>
